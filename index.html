@@ -26,6 +26,10 @@
             z-index: -1;
             animation: spin 20s linear infinite;
         }
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
         .ball {
             width: 100%;
             height: 100%;
@@ -77,10 +81,10 @@
         .card::before {
             content: '';
             position: absolute;
-            top: 5px;
-            left: 5px;
-            right: 5px;
-            bottom: 5px;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
             border: 1px solid #CB971F;
             border-radius: 15px;
             pointer-events: none;
@@ -115,6 +119,7 @@
             width: 100%;
             gap: 10px;
             margin: 10px 0;
+            text-align: center;
         }
         .info-item {
             text-align: center;
@@ -189,7 +194,7 @@
             },
             {
                 name: 'Pelé',
-                ca: 'EDdoFGdpby82tS2JJ6X2koZhFkPK94hPv6RjmFvP6m',
+                ca: 'EDdoFGdpby82tS2JJ6X2koZhFkPK94hPv6RjmFvP6P3m',
                 image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH55s4_yJ18G-ZdR0UuDssxOMkIy2qglK0Hg&s'
             },
             {
@@ -244,7 +249,8 @@
                     marketCap: tokenData ? tokenData.fdv : 'N/A',
                     url: tokenData ? tokenData.url : 'N/A',
                     socials: tokenData && tokenData.info && tokenData.info.socials ? tokenData.info.socials : [],
-                    websites: tokenData && tokenData.info && tokenData.info.websites ? tokenData.info.websites : []
+                    websites: tokenData && tokenData.info && tokenData.info.websites ? tokenData.info.websites : [],
+                    birth: tokenData ? new Date(tokenData.pairCreatedAt).toLocaleDateString('en-US') : 'N/A'
                 };
             } catch (error) {
                 console.error('Error fetching token data:', error);
@@ -258,7 +264,8 @@
                     marketCap: 'N/A',
                     url: 'N/A',
                     socials: [],
-                    websites: []
+                    websites: [],
+                    birth: 'N/A'
                 };
             }
         }
@@ -295,6 +302,10 @@
                             <div class="info-item">
                                 <p class="info-title">MARKET CAP</p>
                                 <p class="info-value">${formatNumber(tokenData.marketCap)}</p>
+                            </div>
+                            <div class="info-item">
+                                <p class="info-title">BIRTH</p>
+                                <p class="info-value">${tokenData.birth}</p>
                             </div>
                         </div>
                         <div class="social-links">
