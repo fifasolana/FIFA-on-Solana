@@ -73,7 +73,7 @@
                 ca: 'EDdoFGdpby82tS2JJ6X2koZhFkPK94hPv6RjmFvP6P3m'
             },
             {
-                name: 'New Player 1',
+                name: 'Zinedine Zidane',
                 ca: 'EAUWxjMzAB3qZ2gawF22CWHufVD8AKcSZN4JBP8YGKd1'
             },
             {
@@ -121,7 +121,8 @@
                     marketCap: tokenData ? tokenData.fdv : 'N/A',
                     url: tokenData ? tokenData.url : 'N/A',
                     image: tokenData && tokenData.info ? tokenData.info.imageUrl : 'https://example.com/default-image.png',
-                    socials: tokenData ? tokenData.socials : []
+                    socials: tokenData && tokenData.info && tokenData.info.socials ? tokenData.info.socials : [],
+                    websites: tokenData && tokenData.info && tokenData.info.websites ? tokenData.info.websites : []
                 };
             } catch (error) {
                 console.error('Error fetching token data:', error);
@@ -139,7 +140,8 @@
                     marketCap: 'N/A',
                     url: 'N/A',
                     image: 'https://example.com/default-image.png',
-                    socials: []
+                    socials: [],
+                    websites: []
                 };
             }
         }
@@ -165,7 +167,8 @@
                         <p>Liquidity: ${formatNumber(tokenData.liquidity)}</p>
                         <p>Market Cap: ${formatNumber(tokenData.marketCap)}</p>
                         <p><a href="${tokenData.url}" target="_blank">DEXSCREENER</a></p>
-                        ${tokenData.socials && tokenData.socials.map(social => social.url ? `<a href="${social.url}" target="_blank" class="social-link">${social.type.charAt(0).toUpperCase() + social.type.slice(1)}</a>` : '').join('')}
+                        ${tokenData.socials.map(social => social.url ? `<a href="${social.url}" target="_blank" class="social-link">${social.type.charAt(0).toUpperCase() + social.type.slice(1)}</a>` : '').join('')}
+                        ${tokenData.websites.map(website => website.url ? `<a href="${website.url}" target="_blank" class="social-link">Website</a>` : '').join('')}
                     </div>
                 `;
                 statsDiv.appendChild(playerCard);
