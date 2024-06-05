@@ -61,6 +61,7 @@
             color: white;
             font-weight: bold;
             text-align: left;
+            text-transform: uppercase;
         }
         .info-value {
             color: #DC980B;
@@ -79,11 +80,15 @@
             display: flex;
             align-items: center;
         }
+        .dex-button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
         .dex-image {
-            width: 20px;
+            width: 30px;
             height: auto;
-            border-radius: 50%;
-            margin-right: 5px;
         }
         .price-change-positive {
             color: green;
@@ -100,10 +105,7 @@
             margin: 0 5px;
             color: white;
             text-decoration: none;
-        }
-        .social-icon {
-            width: 20px;
-            height: 20px;
+            font-size: 24px;
         }
         h1 {
             font-size: 2em;
@@ -205,13 +207,10 @@
                 const playerCard = document.createElement('div');
                 playerCard.className = 'card';
                 playerCard.innerHTML = `
+                    <button class="copy-button" onclick="copyToClipboard('${player.ca}')">CA</button>
                     <img src="${player.image}" alt="${player.name}">
                     <h4>${tokenData.name} / ${tokenData.symbol}</h4>
                     <div class="container">
-                        <button class="copy-button" onclick="window.open('${tokenData.url}', '_blank')">
-                            <img src="https://play-lh.googleusercontent.com/oZa1eCSB6-6c9dzTOQDtovSLgDyg_WY-GZSqab2TALM5Dysbx7jXlvkBofCCzoNKmxN1" alt="DEX Screener" class="dex-image">
-                            DEXSCREENER
-                        </button>
                         <div class="info-row">
                             <div class="info-title">TXNS 24h:</div>
                             <div class="info-value">${tokenData.txns24h}</div>
@@ -235,6 +234,9 @@
                         <div class="social-links">
                             ${tokenData.socials.map(social => social.url ? `<a href="${social.url}" target="_blank" class="social-link"><i class="fab fa-${social.type} social-icon"></i></a>` : '').join('')}
                             ${tokenData.websites.map(website => website.url ? `<a href="${website.url}" target="_blank" class="social-link"><i class="fas fa-globe social-icon"></i></a>` : '').join('')}
+                            <button class="dex-button" onclick="window.open('${tokenData.url}', '_blank')">
+                                <img src="https://play-lh.googleusercontent.com/oZa1eCSB6-6c9dzTOQDtovSLgDyg_WY-GZSqab2TALM5Dysbx7jXlvkBofCCzoNKmxN1" alt="DEX Screener" class="dex-image">
+                            </button>
                         </div>
                     </div>
                 `;
