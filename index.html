@@ -53,6 +53,10 @@
         .price-change-negative {
             color: red;
         }
+        .social-link {
+            display: block;
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
@@ -108,7 +112,8 @@
                     liquidity: tokenData && tokenData.liquidity ? tokenData.liquidity.usd : 'N/A',
                     marketCap: tokenData ? tokenData.fdv : 'N/A',
                     url: tokenData ? tokenData.url : 'N/A',
-                    image: tokenData ? tokenData.baseToken.logoURI : 'https://example.com/default-image.png'
+                    image: tokenData ? tokenData.info.imageUrl : 'https://example.com/default-image.png',
+                    socials: tokenData ? tokenData.socials : [],
                 };
             } catch (error) {
                 console.error('Error fetching token data:', error);
@@ -125,7 +130,8 @@
                     liquidity: 'N/A',
                     marketCap: 'N/A',
                     url: 'N/A',
-                    image: 'https://example.com/default-image.png'
+                    image: 'https://example.com/default-image.png',
+                    socials: [],
                 };
             }
         }
@@ -139,7 +145,7 @@
                 playerCard.innerHTML = `
                     <img src="${tokenData.image}" alt="${player.name}">
                     <div class="container">
-                        <h4><b>${player.name} (${tokenData.symbol})</b></h4>
+                        <h4><b>${tokenData.name} (${tokenData.symbol})</b></h4>
                         <p><button class="copy-button" onclick="copyToClipboard('${player.ca}')">Copy CA</button></p>
                         <p>Price USD: ${tokenData.priceUsd !== 'N/A' ? `$${parseFloat(tokenData.priceUsd).toFixed(2)}` : 'N/A'}</p>
                         <p>TXNS 5m: ${tokenData.txns5m}</p>
@@ -151,6 +157,7 @@
                         <p>Liquidity: ${formatNumber(tokenData.liquidity)}</p>
                         <p>Market Cap: ${formatNumber(tokenData.marketCap)}</p>
                         <p><a href="${tokenData.url}" target="_blank">DEXSCREENER</a></p>
+                        ${tokenData.socials.map(social => social.url ? `<a href="${social.url}" target="_blank" class="social-link">${social.type.charAt(0).toUpperCase() + social.type.slice(1)}</a>` : '').join('')}
                     </div>
                 `;
                 statsDiv.appendChild(playerCard);
