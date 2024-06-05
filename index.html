@@ -27,6 +27,7 @@
             margin: 10px;
             width: 300px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
         .card img {
             width: 100%;
@@ -34,6 +35,23 @@
         }
         .card .container {
             padding: 16px;
+        }
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #033399;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px;
+            cursor: pointer;
+        }
+        .price-change-positive {
+            color: green;
+        }
+        .price-change-negative {
+            color: red;
         }
     </style>
 </head>
@@ -62,37 +80,52 @@
             }
         }
 
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Contract address copied to clipboard');
+            }, (err) => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+
         async function fetchTokenData(ca) {
             const url = `https://api.dexscreener.com/latest/dex/tokens/${ca}`;
             try {
                 const response = await fetch(url);
                 const data = await response.json();
                 const tokenData = data.pairs.find(pair => pair.baseToken.address.toLowerCase() === ca.toLowerCase());
+                console.log(tokenData);  // Debug output
                 return {
-                    marketCap: tokenData ? tokenData.fdv : 'N/A',
+                    name: tokenData ? tokenData.baseToken.name : 'N/A',
+                    symbol: tokenData ? tokenData.baseToken.symbol : 'N/A',
                     priceUsd: tokenData && tokenData.priceUsd ? tokenData.priceUsd : 'N/A',
-                    holders: tokenData ? tokenData.liquidity.base : 'N/A',
+                    txns5m: tokenData ? tokenData.txns.m5.buys + tokenData.txns.m5.sells : 'N/A',
+                    txns24h: tokenData ? tokenData.txns.h24.buys + tokenData.txns.h24.sells : 'N/A',
+                    volume5m: tokenData ? tokenData.volume.m5 : 'N/A',
                     volume24h: tokenData ? tokenData.volume.h24 : 'N/A',
-                    image: tokenData ? tokenData.baseToken.logoURI : 'https://example.com/default-image.png',
-                    socials: {
-                        website: tokenData && tokenData.baseToken.website ? tokenData.baseToken.website : 'N/A',
-                        twitter: tokenData && tokenData.baseToken.twitter ? tokenData.baseToken.twitter : 'N/A',
-                        telegram: tokenData && tokenData.baseToken.telegram ? tokenData.baseToken.telegram : 'N/A'
-                    }
+                    priceChange5m: tokenData ? tokenData.priceChange.m5 : 'N/A',
+                    priceChange24h: tokenData ? tokenData.priceChange.h24 : 'N/A',
+                    liquidity: tokenData && tokenData.liquidity ? tokenData.liquidity.usd : 'N/A',
+                    marketCap: tokenData ? tokenData.fdv : 'N/A',
+                    url: tokenData ? tokenData.url : 'N/A',
+                    image: tokenData ? tokenData.baseToken.logoURI : 'https://example.com/default-image.png'
                 };
             } catch (error) {
                 console.error('Error fetching token data:', error);
                 return {
-                    marketCap: 'N/A',
+                    name: 'N/A',
+                    symbol: 'N/A',
                     priceUsd: 'N/A',
-                    holders: 'N/A',
+                    txns5m: 'N/A',
+                    txns24h: 'N/A',
+                    volume5m: 'N/A',
                     volume24h: 'N/A',
-                    image: 'https://example.com/default-image.png',
-                    socials: {
-                        website: 'N/A',
-                        twitter: 'N/A',
-                        telegram: 'N/A'
-                    }
+                    priceChange5m: 'N/A',
+                    priceChange24h: 'N/A',
+                    liquidity: 'N/A',
+                    marketCap: 'N/A',
+                    url: 'N/A',
+                    image: 'https://example.com/default-image.png'
                 };
             }
         }
@@ -106,15 +139,18 @@
                 playerCard.innerHTML = `
                     <img src="${tokenData.image}" alt="${player.name}">
                     <div class="container">
-                        <h4><b>${player.name}</b></h4>
-                        <p>Contract Address: ${player.ca}</p>
-                        <p>Market Cap: ${formatNumber(tokenData.marketCap)}</p>
+                        <h4><b>${player.name} (${tokenData.symbol})</b></h4>
+                        <p><button class="copy-button" onclick="copyToClipboard('${player.ca}')">Copy CA</button></p>
                         <p>Price USD: ${tokenData.priceUsd !== 'N/A' ? `$${parseFloat(tokenData.priceUsd).toFixed(2)}` : 'N/A'}</p>
-                        <p>Holders: ${tokenData.holders}</p>
+                        <p>TXNS 5m: ${tokenData.txns5m}</p>
+                        <p>TXNS 24h: ${tokenData.txns24h}</p>
+                        <p>Volume 5m: ${formatNumber(tokenData.volume5m)}</p>
                         <p>Volume 24h: ${formatNumber(tokenData.volume24h)}</p>
-                        <p>Website: ${tokenData.socials.website !== 'N/A' ? `<a href="${tokenData.socials.website}" target="_blank">${tokenData.socials.website}</a>` : 'N/A'}</p>
-                        <p>Twitter: ${tokenData.socials.twitter !== 'N/A' ? `<a href="${tokenData.socials.twitter}" target="_blank">${tokenData.socials.twitter}</a>` : 'N/A'}</p>
-                        <p>Telegram: ${tokenData.socials.telegram !== 'N/A' ? `<a href="${tokenData.socials.telegram}" target="_blank">${tokenData.socials.telegram}</a>` : 'N/A'}</p>
+                        <p>Price Change 5m: <span class="${tokenData.priceChange5m >= 0 ? 'price-change-positive' : 'price-change-negative'}">${tokenData.priceChange5m !== 'N/A' ? `${tokenData.priceChange5m.toFixed(2)}%` : 'N/A'}</span></p>
+                        <p>Price Change 24h: <span class="${tokenData.priceChange24h >= 0 ? 'price-change-positive' : 'price-change-negative'}">${tokenData.priceChange24h !== 'N/A' ? `${tokenData.priceChange24h.toFixed(2)}%` : 'N/A'}</span></p>
+                        <p>Liquidity: ${formatNumber(tokenData.liquidity)}</p>
+                        <p>Market Cap: ${formatNumber(tokenData.marketCap)}</p>
+                        <p><a href="${tokenData.url}" target="_blank">DEXSCREENER</a></p>
                     </div>
                 `;
                 statsDiv.appendChild(playerCard);
