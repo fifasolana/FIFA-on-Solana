@@ -52,12 +52,12 @@
         ];
 
         async function fetchMarketCap(ca) {
-            // CoinGecko API URL pour récupérer les informations des tokens Solana
-            const url = `https://api.coingecko.com/api/v3/coins/solana/contract/${ca}`;
+            const url = 'https://api.raydium.io/v2/main/price';
             try {
                 const response = await fetch(url);
                 const data = await response.json();
-                return data.market_data.market_cap.usd;
+                const tokenData = data.find(token => token.id === ca);
+                return tokenData ? tokenData.price : 'N/A';
             } catch (error) {
                 console.error('Error fetching market cap:', error);
                 return 'N/A';
