@@ -44,12 +44,10 @@
         const players = [
             {
                 name: 'Ronaldo',
-                image: 'https://parimatchnews.com/wp-content/uploads/2021/01/Screenshot_1-634x640.png',
                 ca: 'BHZDqqUuFJLX51upfnDjpNg5x4wniUQD88rLhE3oAP4j'
             },
             {
                 name: 'Pelé',
-                image: 'https://media.cnn.com/api/v1/images/stellar/prod/211212035603-022-pele-obit-restricted.jpg?q=h_3180,w_2515,x_0,y_0',
                 ca: 'EDdoFGdpby82tS2JJ6X2koZhFkPK94hPv6RjmFvP6P3m'
             }
         ];
@@ -74,7 +72,13 @@
                     marketCap: tokenData ? tokenData.fdv : 'N/A',
                     priceUsd: tokenData ? tokenData.priceUsd : 'N/A',
                     holders: tokenData ? tokenData.liquidity.base : 'N/A', // Adjust based on the actual API response
-                    volume24h: tokenData ? tokenData.volume.h24 : 'N/A'
+                    volume24h: tokenData ? tokenData.volume.h24 : 'N/A',
+                    image: tokenData ? tokenData.baseToken.logoURI : 'https://example.com/default-image.png',
+                    socials: {
+                        website: tokenData ? tokenData.baseToken.website : 'N/A',
+                        twitter: tokenData ? tokenData.baseToken.twitter : 'N/A',
+                        telegram: tokenData ? tokenData.baseToken.telegram : 'N/A'
+                    }
                 };
             } catch (error) {
                 console.error('Error fetching token data:', error);
@@ -82,7 +86,13 @@
                     marketCap: 'N/A',
                     priceUsd: 'N/A',
                     holders: 'N/A',
-                    volume24h: 'N/A'
+                    volume24h: 'N/A',
+                    image: 'https://example.com/default-image.png',
+                    socials: {
+                        website: 'N/A',
+                        twitter: 'N/A',
+                        telegram: 'N/A'
+                    }
                 };
             }
         }
@@ -94,7 +104,7 @@
                 const playerCard = document.createElement('div');
                 playerCard.className = 'card';
                 playerCard.innerHTML = `
-                    <img src="${player.image}" alt="${player.name}">
+                    <img src="${tokenData.image}" alt="${player.name}">
                     <div class="container">
                         <h4><b>${player.name}</b></h4>
                         <p>Contract Address: ${player.ca}</p>
@@ -102,6 +112,9 @@
                         <p>Price USD: $${tokenData.priceUsd.toFixed(2)}</p>
                         <p>Holders: ${tokenData.holders}</p>
                         <p>Volume 24h: ${formatNumber(tokenData.volume24h)}</p>
+                        <p>Website: <a href="${tokenData.socials.website}" target="_blank">${tokenData.socials.website}</a></p>
+                        <p>Twitter: <a href="${tokenData.socials.twitter}" target="_blank">${tokenData.socials.twitter}</a></p>
+                        <p>Telegram: <a href="${tokenData.socials.telegram}" target="_blank">${tokenData.socials.telegram}</a></p>
                     </div>
                 `;
                 statsDiv.appendChild(playerCard);
