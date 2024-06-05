@@ -53,17 +53,18 @@
         }
         .info-row {
             display: flex;
-            flex-direction: column;
-            align-items: flex-start;
+            justify-content: space-between;
             width: 100%;
             padding: 5px 0;
         }
         .info-title {
             color: white;
             font-weight: bold;
+            text-align: left;
         }
         .info-value {
             color: #DC980B;
+            text-align: right;
         }
         .copy-button {
             position: absolute;
@@ -80,7 +81,7 @@
         }
         .dex-image {
             width: 20px;
-            height: 20px;
+            height: auto;
             border-radius: 50%;
             margin-right: 5px;
         }
@@ -90,20 +91,26 @@
         .price-change-negative {
             color: red;
         }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
         .social-link {
-            display: block;
-            margin: 5px 0;
+            margin: 0 5px;
             color: white;
             text-decoration: none;
         }
-        .social-link:hover {
-            text-decoration: underline;
+        .social-icon {
+            width: 20px;
+            height: 20px;
         }
         h1 {
             font-size: 2em;
             margin: 20px 0;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <h1>FIFA Token Statistics</h1>
@@ -165,11 +172,8 @@
                 return {
                     name: tokenData ? tokenData.baseToken.name : 'N/A',
                     symbol: tokenData ? tokenData.baseToken.symbol : 'N/A',
-                    txns5m: tokenData ? tokenData.txns.m5.buys + tokenData.txns.m5.sells : 'N/A',
                     txns24h: tokenData ? tokenData.txns.h24.buys + tokenData.txns.h24.sells : 'N/A',
-                    volume5m: tokenData ? tokenData.volume.m5 : 'N/A',
                     volume24h: tokenData ? tokenData.volume.h24 : 'N/A',
-                    priceChange5m: tokenData ? tokenData.priceChange.m5 : 'N/A',
                     priceChange24h: tokenData ? tokenData.priceChange.h24 : 'N/A',
                     liquidity: tokenData && tokenData.liquidity ? tokenData.liquidity.usd : 'N/A',
                     marketCap: tokenData ? tokenData.fdv : 'N/A',
@@ -182,11 +186,8 @@
                 return {
                     name: 'N/A',
                     symbol: 'N/A',
-                    txns5m: 'N/A',
                     txns24h: 'N/A',
-                    volume5m: 'N/A',
                     volume24h: 'N/A',
-                    priceChange5m: 'N/A',
                     priceChange24h: 'N/A',
                     liquidity: 'N/A',
                     marketCap: 'N/A',
@@ -207,29 +208,17 @@
                     <img src="${player.image}" alt="${player.name}">
                     <h4>${tokenData.name} / ${tokenData.symbol}</h4>
                     <div class="container">
-                        <button class="copy-button" onclick="copyToClipboard('${player.ca}')">
+                        <button class="copy-button" onclick="window.open('${tokenData.url}', '_blank')">
                             <img src="https://play-lh.googleusercontent.com/oZa1eCSB6-6c9dzTOQDtovSLgDyg_WY-GZSqab2TALM5Dysbx7jXlvkBofCCzoNKmxN1" alt="DEX Screener" class="dex-image">
-                            Copy CA
+                            DEXSCREENER
                         </button>
-                        <div class="info-row">
-                            <div class="info-title">TXNS 5m:</div>
-                            <div class="info-value">${tokenData.txns5m}</div>
-                        </div>
                         <div class="info-row">
                             <div class="info-title">TXNS 24h:</div>
                             <div class="info-value">${tokenData.txns24h}</div>
                         </div>
                         <div class="info-row">
-                            <div class="info-title">Volume 5m:</div>
-                            <div class="info-value">${formatNumber(tokenData.volume5m)}</div>
-                        </div>
-                        <div class="info-row">
                             <div class="info-title">Volume 24h:</div>
                             <div class="info-value">${formatNumber(tokenData.volume24h)}</div>
-                        </div>
-                        <div class="info-row">
-                            <div class="info-title">Price Change 5m:</div>
-                            <div class="info-value"><span class="${tokenData.priceChange5m >= 0 ? 'price-change-positive' : 'price-change-negative'}">${tokenData.priceChange5m !== 'N/A' ? `${tokenData.priceChange5m.toFixed(2)}%` : 'N/A'}</span></div>
                         </div>
                         <div class="info-row">
                             <div class="info-title">Price Change 24h:</div>
@@ -243,11 +232,10 @@
                             <div class="info-title">Market Cap:</div>
                             <div class="info-value">${formatNumber(tokenData.marketCap)}</div>
                         </div>
-                        <div class="info-row">
-                            <div class="info-title"><a href="${tokenData.url}" target="_blank" class="social-link">DEXSCREENER</a></div>
+                        <div class="social-links">
+                            ${tokenData.socials.map(social => social.url ? `<a href="${social.url}" target="_blank" class="social-link"><i class="fab fa-${social.type} social-icon"></i></a>` : '').join('')}
+                            ${tokenData.websites.map(website => website.url ? `<a href="${website.url}" target="_blank" class="social-link"><i class="fas fa-globe social-icon"></i></a>` : '').join('')}
                         </div>
-                        ${tokenData.socials.map(social => social.url ? `<a href="${social.url}" target="_blank" class="social-link">${social.type.charAt(0).toUpperCase() + social.type.slice(1)}</a>` : '').join('')}
-                        ${tokenData.websites.map(website => website.url ? `<a href="${website.url}" target="_blank" class="social-link">Website</a>` : '').join('')}
                     </div>
                 `;
                 statsDiv.appendChild(playerCard);
