@@ -51,21 +51,25 @@
             margin: 0;
             border-radius: 0 0 16px 16px;
         }
-        .info-row {
-            display: flex;
-            justify-content: space-between;
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             width: 100%;
-            padding: 5px 0;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .info-item {
+            text-align: center;
         }
         .info-title {
             color: white;
             font-weight: bold;
-            text-align: left;
             text-transform: uppercase;
+            margin: 0;
         }
         .info-value {
             color: #DC980B;
-            text-align: right;
+            margin: 0;
         }
         .copy-button {
             position: absolute;
@@ -77,8 +81,6 @@
             border-radius: 5px;
             padding: 5px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
         }
         .dex-button {
             background-color: transparent;
@@ -173,7 +175,7 @@
                 console.log(tokenData);  // Debug output
                 return {
                     name: tokenData ? tokenData.baseToken.name : 'N/A',
-                    symbol: tokenData ? tokenData.baseToken.symbol : 'N/A',
+                    symbol: tokenData ? '$' + tokenData.baseToken.symbol.toUpperCase() : 'N/A',
                     txns24h: tokenData ? tokenData.txns.h24.buys + tokenData.txns.h24.sells : 'N/A',
                     volume24h: tokenData ? tokenData.volume.h24 : 'N/A',
                     priceChange24h: tokenData ? tokenData.priceChange.h24 : 'N/A',
@@ -211,33 +213,35 @@
                     <img src="${player.image}" alt="${player.name}">
                     <h4>${tokenData.name} / ${tokenData.symbol}</h4>
                     <div class="container">
-                        <div class="info-row">
-                            <div class="info-title">TXNS 24h:</div>
-                            <div class="info-value">${tokenData.txns24h}</div>
-                        </div>
-                        <div class="info-row">
-                            <div class="info-title">Volume 24h:</div>
-                            <div class="info-value">${formatNumber(tokenData.volume24h)}</div>
-                        </div>
-                        <div class="info-row">
-                            <div class="info-title">Price Change 24h:</div>
-                            <div class="info-value"><span class="${tokenData.priceChange24h >= 0 ? 'price-change-positive' : 'price-change-negative'}">${tokenData.priceChange24h !== 'N/A' ? `${tokenData.priceChange24h.toFixed(2)}%` : 'N/A'}</span></div>
-                        </div>
-                        <div class="info-row">
-                            <div class="info-title">Liquidity:</div>
-                            <div class="info-value">${formatNumber(tokenData.liquidity)}</div>
-                        </div>
-                        <div class="info-row">
-                            <div class="info-title">Market Cap:</div>
-                            <div class="info-value">${formatNumber(tokenData.marketCap)}</div>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <p class="info-title">TXNS 24h</p>
+                                <p class="info-value">${tokenData.txns24h}</p>
+                            </div>
+                            <div class="info-item">
+                                <p class="info-title">Volume 24h</p>
+                                <p class="info-value">${formatNumber(tokenData.volume24h)}</p>
+                            </div>
+                            <div class="info-item">
+                                <p class="info-title">Price Change 24h</p>
+                                <p class="info-value"><span class="${tokenData.priceChange24h >= 0 ? 'price-change-positive' : 'price-change-negative'}">${tokenData.priceChange24h !== 'N/A' ? `${tokenData.priceChange24h.toFixed(2)}%` : 'N/A'}</span></p>
+                            </div>
+                            <div class="info-item">
+                                <p class="info-title">Liquidity</p>
+                                <p class="info-value">${formatNumber(tokenData.liquidity)}</p>
+                            </div>
+                            <div class="info-item">
+                                <p class="info-title">Market Cap</p>
+                                <p class="info-value">${formatNumber(tokenData.marketCap)}</p>
+                            </div>
                         </div>
                         <div class="social-links">
                             ${tokenData.socials.map(social => social.url ? `<a href="${social.url}" target="_blank" class="social-link"><i class="fab fa-${social.type} social-icon"></i></a>` : '').join('')}
                             ${tokenData.websites.map(website => website.url ? `<a href="${website.url}" target="_blank" class="social-link"><i class="fas fa-globe social-icon"></i></a>` : '').join('')}
-                            <button class="dex-button" onclick="window.open('${tokenData.url}', '_blank')">
-                                <img src="https://play-lh.googleusercontent.com/oZa1eCSB6-6c9dzTOQDtovSLgDyg_WY-GZSqab2TALM5Dysbx7jXlvkBofCCzoNKmxN1" alt="DEX Screener" class="dex-image">
-                            </button>
                         </div>
+                        <button class="dex-button" onclick="window.open('${tokenData.url}', '_blank')">
+                            <img src="https://play-lh.googleusercontent.com/oZa1eCSB6-6c9dzTOQDtovSLgDyg_WY-GZSqab2TALM5Dysbx7jXlvkBofCCzoNKmxN1" alt="DEX Screener" class="dex-image">
+                        </button>
                     </div>
                 `;
                 statsDiv.appendChild(playerCard);
