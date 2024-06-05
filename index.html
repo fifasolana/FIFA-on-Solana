@@ -7,7 +7,7 @@
     <style>
         body { 
             font-family: Arial, sans-serif; 
-            background-color: #033399; 
+            background-color: #020D51; 
             color: white;
             display: flex;
             flex-direction: column;
@@ -23,7 +23,7 @@
         }
         .card {
             background-color: #ffffff;
-            color: #033399;
+            color: #020D51;
             border-radius: 16px;
             padding: 20px;
             margin: 10px;
@@ -41,12 +41,37 @@
         }
         .card .container {
             padding: 16px;
+            width: 100%;
+        }
+        .card h4 {
+            background-color: #ffffff;
+            color: #020D51;
+            width: 100%;
+            padding: 10px 0;
+            margin: 0;
+            border-radius: 0 0 16px 16px;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 5px 0;
+        }
+        .info-title {
+            color: white;
+            width: 50%;
+            text-align: left;
+        }
+        .info-value {
+            color: #DC980B;
+            width: 50%;
+            text-align: right;
         }
         .copy-button {
             position: absolute;
             top: 10px;
             right: 10px;
-            background-color: #033399;
+            background-color: #020D51;
             color: white;
             border: none;
             border-radius: 5px;
@@ -62,7 +87,7 @@
         .social-link {
             display: block;
             margin: 5px 0;
-            color: #033399;
+            color: #020D51;
             text-decoration: none;
         }
         .social-link:hover {
@@ -94,6 +119,10 @@
             {
                 name: 'New Player 2',
                 ca: '6cJkMAub1KcBgoBLPJfR91dUnzFq9hpi8rSxnyH5q68o'
+            },
+            {
+                name: 'New Player 3',
+                ca: 'HiRx4TWNmuPK6VKxGKPSw8T7dZ9NuCrakpNpRoiCEyrA'
             }
         ];
 
@@ -125,7 +154,6 @@
                 return {
                     name: tokenData ? tokenData.baseToken.name : 'N/A',
                     symbol: tokenData ? tokenData.baseToken.symbol : 'N/A',
-                    priceUsd: tokenData && tokenData.priceUsd ? parseFloat(tokenData.priceUsd) : 'N/A',
                     txns5m: tokenData ? tokenData.txns.m5.buys + tokenData.txns.m5.sells : 'N/A',
                     txns24h: tokenData ? tokenData.txns.h24.buys + tokenData.txns.h24.sells : 'N/A',
                     volume5m: tokenData ? tokenData.volume.m5 : 'N/A',
@@ -144,7 +172,6 @@
                 return {
                     name: 'N/A',
                     symbol: 'N/A',
-                    priceUsd: 'N/A',
                     txns5m: 'N/A',
                     txns24h: 'N/A',
                     volume5m: 'N/A',
@@ -169,19 +196,44 @@
                 playerCard.className = 'card';
                 playerCard.innerHTML = `
                     <img src="${tokenData.image}" alt="${player.name}">
+                    <h4>${tokenData.name} / ${tokenData.symbol}</h4>
                     <div class="container">
-                        <h4><b>${tokenData.name} (${tokenData.symbol})</b></h4>
-                        <p><button class="copy-button" onclick="copyToClipboard('${player.ca}')">Copy CA</button></p>
-                        <p>Price USD: ${tokenData.priceUsd !== 'N/A' ? `$${tokenData.priceUsd.toFixed(4)}` : 'N/A'}</p>
-                        <p>TXNS 5m: ${tokenData.txns5m}</p>
-                        <p>TXNS 24h: ${tokenData.txns24h}</p>
-                        <p>Volume 5m: ${formatNumber(tokenData.volume5m)}</p>
-                        <p>Volume 24h: ${formatNumber(tokenData.volume24h)}</p>
-                        <p>Price Change 5m: <span class="${tokenData.priceChange5m >= 0 ? 'price-change-positive' : 'price-change-negative'}">${tokenData.priceChange5m !== 'N/A' ? `${tokenData.priceChange5m.toFixed(2)}%` : 'N/A'}</span></p>
-                        <p>Price Change 24h: <span class="${tokenData.priceChange24h >= 0 ? 'price-change-positive' : 'price-change-negative'}">${tokenData.priceChange24h !== 'N/A' ? `${tokenData.priceChange24h.toFixed(2)}%` : 'N/A'}</span></p>
-                        <p>Liquidity: ${formatNumber(tokenData.liquidity)}</p>
-                        <p>Market Cap: ${formatNumber(tokenData.marketCap)}</p>
-                        <p><a href="${tokenData.url}" target="_blank">DEXSCREENER</a></p>
+                        <button class="copy-button" onclick="copyToClipboard('${player.ca}')">Copy CA</button>
+                        <div class="info-row">
+                            <div class="info-title">TXNS 5m:</div>
+                            <div class="info-value">${tokenData.txns5m}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-title">TXNS 24h:</div>
+                            <div class="info-value">${tokenData.txns24h}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-title">Volume 5m:</div>
+                            <div class="info-value">${formatNumber(tokenData.volume5m)}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-title">Volume 24h:</div>
+                            <div class="info-value">${formatNumber(tokenData.volume24h)}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-title">Price Change 5m:</div>
+                            <div class="info-value"><span class="${tokenData.priceChange5m >= 0 ? 'price-change-positive' : 'price-change-negative'}">${tokenData.priceChange5m !== 'N/A' ? `${tokenData.priceChange5m.toFixed(2)}%` : 'N/A'}</span></div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-title">Price Change 24h:</div>
+                            <div class="info-value"><span class="${tokenData.priceChange24h >= 0 ? 'price-change-positive' : 'price-change-negative'}">${tokenData.priceChange24h !== 'N/A' ? `${tokenData.priceChange24h.toFixed(2)}%` : 'N/A'}</span></div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-title">Liquidity:</div>
+                            <div class="info-value">${formatNumber(tokenData.liquidity)}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-title">Market Cap:</div>
+                            <div class="info-value">${formatNumber(tokenData.marketCap)}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-title"><a href="${tokenData.url}" target="_blank" class="social-link">DEXSCREENER</a></div>
+                        </div>
                         ${tokenData.socials.map(social => social.url ? `<a href="${social.url}" target="_blank" class="social-link">${social.type.charAt(0).toUpperCase() + social.type.slice(1)}</a>` : '').join('')}
                         ${tokenData.websites.map(website => website.url ? `<a href="${website.url}" target="_blank" class="social-link">Website</a>` : '').join('')}
                     </div>
