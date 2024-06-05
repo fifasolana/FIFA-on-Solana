@@ -34,6 +34,7 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
+            border: 2px solid #CB971F;
         }
         .card img {
             width: 100%;
@@ -45,11 +46,12 @@
         }
         .card h4 {
             background-color: #ffffff;
-            color: #020D51;
+            color: #CB971F;
             width: 100%;
             padding: 10px 0;
             margin: 0;
             border-radius: 0 0 16px 16px;
+            text-transform: uppercase;
         }
         .info-grid {
             display: grid;
@@ -89,7 +91,7 @@
             margin-top: 10px;
         }
         .dex-image {
-            width: 30px;
+            width: 15%;
             height: auto;
         }
         .price-change-positive {
@@ -174,7 +176,7 @@
                 const tokenData = data.pairs.find(pair => pair.baseToken.address.toLowerCase() === ca.toLowerCase());
                 console.log(tokenData);  // Debug output
                 return {
-                    name: tokenData ? tokenData.baseToken.name : 'N/A',
+                    name: tokenData ? tokenData.baseToken.name.toUpperCase() : 'N/A',
                     symbol: tokenData ? '$' + tokenData.baseToken.symbol.toUpperCase() : 'N/A',
                     txns24h: tokenData ? tokenData.txns.h24.buys + tokenData.txns.h24.sells : 'N/A',
                     volume24h: tokenData ? tokenData.volume.h24 : 'N/A',
@@ -215,23 +217,23 @@
                     <div class="container">
                         <div class="info-grid">
                             <div class="info-item">
-                                <p class="info-title">TXNS 24h</p>
+                                <p class="info-title">TXNS 24H</p>
                                 <p class="info-value">${tokenData.txns24h}</p>
                             </div>
                             <div class="info-item">
-                                <p class="info-title">Volume 24h</p>
+                                <p class="info-title">VOLUME 24H</p>
                                 <p class="info-value">${formatNumber(tokenData.volume24h)}</p>
                             </div>
                             <div class="info-item">
-                                <p class="info-title">Price Change 24h</p>
+                                <p class="info-title">PRICE 24H</p>
                                 <p class="info-value"><span class="${tokenData.priceChange24h >= 0 ? 'price-change-positive' : 'price-change-negative'}">${tokenData.priceChange24h !== 'N/A' ? `${tokenData.priceChange24h.toFixed(2)}%` : 'N/A'}</span></p>
                             </div>
                             <div class="info-item">
-                                <p class="info-title">Liquidity</p>
+                                <p class="info-title">LIQUIDITY</p>
                                 <p class="info-value">${formatNumber(tokenData.liquidity)}</p>
                             </div>
                             <div class="info-item">
-                                <p class="info-title">Market Cap</p>
+                                <p class="info-title">MARKET CAP</p>
                                 <p class="info-value">${formatNumber(tokenData.marketCap)}</p>
                             </div>
                         </div>
