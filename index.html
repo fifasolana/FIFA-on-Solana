@@ -70,14 +70,14 @@
                 const tokenData = data.pairs.find(pair => pair.baseToken.address.toLowerCase() === ca.toLowerCase());
                 return {
                     marketCap: tokenData ? tokenData.fdv : 'N/A',
-                    priceUsd: tokenData ? tokenData.priceUsd : 'N/A',
-                    holders: tokenData ? tokenData.liquidity.base : 'N/A', // Adjust based on the actual API response
+                    priceUsd: tokenData && tokenData.priceUsd ? tokenData.priceUsd : 'N/A',
+                    holders: tokenData ? tokenData.liquidity.base : 'N/A',
                     volume24h: tokenData ? tokenData.volume.h24 : 'N/A',
                     image: tokenData ? tokenData.baseToken.logoURI : 'https://example.com/default-image.png',
                     socials: {
-                        website: tokenData ? tokenData.baseToken.website : 'N/A',
-                        twitter: tokenData ? tokenData.baseToken.twitter : 'N/A',
-                        telegram: tokenData ? tokenData.baseToken.telegram : 'N/A'
+                        website: tokenData && tokenData.baseToken.website ? tokenData.baseToken.website : 'N/A',
+                        twitter: tokenData && tokenData.baseToken.twitter ? tokenData.baseToken.twitter : 'N/A',
+                        telegram: tokenData && tokenData.baseToken.telegram ? tokenData.baseToken.telegram : 'N/A'
                     }
                 };
             } catch (error) {
@@ -109,12 +109,12 @@
                         <h4><b>${player.name}</b></h4>
                         <p>Contract Address: ${player.ca}</p>
                         <p>Market Cap: ${formatNumber(tokenData.marketCap)}</p>
-                        <p>Price USD: $${tokenData.priceUsd.toFixed(2)}</p>
+                        <p>Price USD: ${tokenData.priceUsd !== 'N/A' ? `$${parseFloat(tokenData.priceUsd).toFixed(2)}` : 'N/A'}</p>
                         <p>Holders: ${tokenData.holders}</p>
                         <p>Volume 24h: ${formatNumber(tokenData.volume24h)}</p>
-                        <p>Website: <a href="${tokenData.socials.website}" target="_blank">${tokenData.socials.website}</a></p>
-                        <p>Twitter: <a href="${tokenData.socials.twitter}" target="_blank">${tokenData.socials.twitter}</a></p>
-                        <p>Telegram: <a href="${tokenData.socials.telegram}" target="_blank">${tokenData.socials.telegram}</a></p>
+                        <p>Website: ${tokenData.socials.website !== 'N/A' ? `<a href="${tokenData.socials.website}" target="_blank">${tokenData.socials.website}</a>` : 'N/A'}</p>
+                        <p>Twitter: ${tokenData.socials.twitter !== 'N/A' ? `<a href="${tokenData.socials.twitter}" target="_blank">${tokenData.socials.twitter}</a>` : 'N/A'}</p>
+                        <p>Telegram: ${tokenData.socials.telegram !== 'N/A' ? `<a href="${tokenData.socials.telegram}" target="_blank">${tokenData.socials.telegram}</a>` : 'N/A'}</p>
                     </div>
                 `;
                 statsDiv.appendChild(playerCard);
