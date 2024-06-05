@@ -3,29 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solana Token Statistics</title>
+    <title>FIFA Token Statistics</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        .stats { margin: 20px; }
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #033399; 
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .stats { 
+            margin: 20px; 
+        }
+        .card {
+            background-color: white;
+            color: #033399;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card img {
+            width: 100%;
+            border-radius: 8px 8px 0 0;
+        }
+        .card .container {
+            padding: 16px;
+        }
     </style>
 </head>
 <body>
-    <h1>Solana Token Statistics</h1>
-    <div id="stats" class="stats"></div>
+    <h1>FIFA Token Statistics</h1>
+    <div class="stats" id="stats"></div>
     <script>
-        async function fetchSolanaData() {
-            const response = await fetch('https://api.example.com/solana-token-stats'); // Remplacez par l'API réelle
-            const data = await response.json();
-            document.getElementById('stats').innerHTML = `
-                <p>Token Name: ${data.tokenName}</p>
-                <p>Price: ${data.price}</p>
-                <p>Market Cap: ${data.marketCap}</p>
-                <p>Volume: ${data.volume}</p>
-            `;
+        const players = [
+            {
+                name: 'Ronaldo',
+                image: 'https://example.com/ronaldo.jpg', // Remplacez par l'URL réelle de l'image de Ronaldo
+                ca: 'BHZDqqUuFJLX51upfnDjpNg5x4wniUQD88rLhE3oAP4j'
+            },
+            {
+                name: 'Pelé',
+                image: 'https://example.com/pele.jpg', // Remplacez par l'URL réelle de l'image de Pelé
+                ca: 'EDdoFGdpby82tS2JJ6X2koZhFkPK94hPv6RjmFvP6P3m'
+            }
+        ];
+
+        function displayPlayers() {
+            const statsDiv = document.getElementById('stats');
+            players.forEach(player => {
+                const playerCard = document.createElement('div');
+                playerCard.className = 'card';
+                playerCard.innerHTML = `
+                    <img src="${player.image}" alt="${player.name}">
+                    <div class="container">
+                        <h4><b>${player.name}</b></h4>
+                        <p>Contract Address: ${player.ca}</p>
+                    </div>
+                `;
+                statsDiv.appendChild(playerCard);
+            });
         }
 
-        fetchSolanaData();
-        setInterval(fetchSolanaData, 60000); // Actualise les données toutes les minutes
+        displayPlayers();
     </script>
 </body>
 </html>
