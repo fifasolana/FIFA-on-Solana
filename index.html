@@ -24,7 +24,7 @@
 
         .featured-card {
             background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
-                        radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
+                radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
             color: black;
         }
 
@@ -254,7 +254,7 @@
 
         .featured-card .back {
             background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
-                        radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
+                radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
         }
 
         #dexscreener-embed {
@@ -281,25 +281,11 @@
         #stats > div.card.flipped > div.back > div {
             width: 100%;
         }
-
-        @keyframes shine {
-            0% {
-                background-position: -200px;
-            }
-            100% {
-                background-position: 200px;
-            }
-        }
-
-        .featured-card {
-            background-size: 400% 100%;
-            animation: shine 4s linear infinite;
-        }
     </style>
 </head>
 <body>
     <div class="content">
-        <h1>$FIFA</h1>
+        <h1>$FIFA</h2>
         <h2>We can make and break your favorite players</h2>
         <h3 onclick="copyToClipboard('7TBqJPw4Ljtjksb5M3u1KwPnqKyL9UBddJPvQr1DQdHb')">CA: 7TBqJPw4Ljtjksb5M3u1KwPnqKyL9UBddJPvQr1DQdHb</h3>
         <div class="social-buttons">
@@ -400,21 +386,20 @@
         async function displayPlayers() {
             const statsDiv = document.getElementById('stats');
             const playerData = await Promise.all(players.map(player => fetchTokenData(player.ca)));
-            
-            const sortedPlayers = playerData.map((data, index) => ({
-                ...players[index],
-                ...data
-            })).sort((a, b) => {
-                if (a.name === 'Pelé') return -1;
-                if (b.name === 'Pelé') return 1;
-                return parseFloat(b.priceChange24h) - parseFloat(a.priceChange24h);
-            });
+
+            const peleCard = playerData.find(data => data.name.toLowerCase().includes('pelé'));
+            const otherPlayers = playerData.filter(data => !data.name.toLowerCase().includes('pelé'));
+
+            const sortedPlayers = [
+                peleCard,
+                ...otherPlayers.sort((a, b) => parseFloat(b.priceChange24h) - parseFloat(a.priceChange24h))
+            ];
 
             sortedPlayers.forEach(player => {
                 console.log(player); // Debug output
                 const playerCard = document.createElement('div');
                 playerCard.className = 'card';
-                if (player.featured) {
+                if (player.name.toLowerCase().includes('pelé')) {
                     playerCard.classList.add('featured-card');
                 }
                 playerCard.innerHTML = `
