@@ -28,6 +28,8 @@
             background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
                         radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
             color: black;
+            background-size: cover;
+            background-position: center;
         }
 
         .featured-card h4 {
@@ -393,18 +395,14 @@
             const statsDiv = document.getElementById('stats');
             const playerData = await Promise.all(players.map(player => fetchTokenData(player.ca)));
             const peleCardIndex = playerData.findIndex(data => data.ca === 'EDdoFGdpby82tS2JJ6X2koZhFkPK94hPv6RjmFvP6P3m');
-    if (peleCardIndex > -1) {
-        const peleCard = playerData.splice(peleCardIndex, 1)[0]; // Retirer la carte de Pelé du tableau et la stocker
-        playerData.unshift(peleCard); // Ajouter la carte de Pelé au début du tableau
-    }
+            if (peleCardIndex > -1) {
+                const peleCard = playerData.splice(peleCardIndex, 1)[0]; // Retirer la carte de Pelé du tableau et la stocker
+                playerData.unshift(peleCard); // Ajouter la carte de Pelé au début du tableau
+            }
             const sortedPlayers = playerData.map((data, index) => ({
                 ...players[index],
                 ...data
-            })).sort((a, b) => {
-                if (a.name === 'Pelé') return -1;
-                if (b.name === 'Pelé') return 1;
-                return parseFloat(b.priceChange24h) - parseFloat(a.priceChange24h);
-            });
+            }));
 
             sortedPlayers.forEach(player => {
                 console.log(player); // Debug output
