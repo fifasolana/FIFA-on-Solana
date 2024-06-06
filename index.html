@@ -23,31 +23,13 @@
         }
 
         .featured-card {
-            background-color: #ffc000;
+            background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
+                        radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
             color: black;
-            position: relative;
-            overflow: hidden;
         }
 
         .featured-card h4 {
             color: black;
-        }
-
-        .featured-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
-            transform: rotate(30deg);
-            animation: shine 2s infinite;
-        }
-
-        @keyframes shine {
-            0% { transform: rotate(30deg) translate(-50%, -50%); }
-            100% { transform: rotate(30deg) translate(150%, 150%); }
         }
 
         .content {
@@ -270,6 +252,11 @@
             transform: rotateY(180deg);
         }
 
+        .featured-card .back {
+            background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
+                        radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
+        }
+
         #dexscreener-embed {
             position: relative;
             width: 100%;
@@ -293,6 +280,20 @@
 
         #stats > div.card.flipped > div.back > div {
             width: 100%;
+        }
+
+        @keyframes shine {
+            0% {
+                background-position: -200px;
+            }
+            100% {
+                background-position: 200px;
+            }
+        }
+
+        .featured-card {
+            background-size: 400% 100%;
+            animation: shine 4s linear infinite;
         }
     </style>
 </head>
@@ -404,8 +405,8 @@
                 ...players[index],
                 ...data
             })).sort((a, b) => {
-                if (a.featured) return -1;
-                if (b.featured) return 1;
+                if (a.name === 'Pelé') return -1;
+                if (b.name === 'Pelé') return 1;
                 return parseFloat(b.priceChange24h) - parseFloat(a.priceChange24h);
             });
 
