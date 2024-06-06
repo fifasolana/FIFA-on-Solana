@@ -82,7 +82,7 @@
         }
         .dex-button {
             right: 10px;
-            background: url('https://play-lh.googleusercontent.com/oZa1eCSB6-6c9dzTOQDtovSLgDyg_WY-GZSqab2TALM5Dysbx7jXlvkBofCCzoNKmxN1') no-repeat center;
+            background: url('https://play-lh.googleusercontent.com/oZa1eCSB6-6c9dzTOQDtovSLgDyg_WY-GSqab2TALM5Dysbx7jXlvkBofCCzoNKmxN1') no-repeat center;
             background-size: cover;
         }
         .social-links {
@@ -192,33 +192,33 @@
                     <div class="info-grid">
                         <div class="info-item">
                             <p class="info-title">TXNS 24H</p>
-                            <p class="info-value">${tokenData.txns.h24.buys + tokenData.txns.h24.sells}</p>
+                            <p class="info-value">${tokenData?.txns?.h24 ? tokenData.txns.h24.buys + tokenData.txns.h24.sells : 0}</p>
                         </div>
                         <div class="info-item">
                             <p class="info-title">VOLUME 24H</p>
-                            <p class="info-value">${formatValue(tokenData.volume.h24)}</p>
+                            <p class="info-value">${tokenData?.volume?.h24 ? formatValue(tokenData.volume.h24) : '$0'}</p>
                         </div>
                         <div class="info-item">
                             <p class="info-title">PRICE 24H</p>
-                            <p class="info-value">${formatValue(tokenData.priceChange.h24, true)}</p>
+                            <p class="info-value">${tokenData?.priceChange?.h24 ? formatValue(tokenData.priceChange.h24, true) : '0%'}</p>
                         </div>
                         <div class="info-item">
                             <p class="info-title">LIQUIDITY</p>
-                            <p class="info-value">${formatValue(tokenData.liquidity.usd)}</p>
+                            <p class="info-value">${tokenData?.liquidity?.usd ? formatValue(tokenData.liquidity.usd) : '$0'}</p>
                         </div>
                         <div class="info-item">
                             <p class="info-title">MARKET CAP</p>
-                            <p class="info-value">${formatValue(tokenData.fdv)}</p>
+                            <p class="info-value">${tokenData?.fdv ? formatValue(tokenData.fdv) : '$0'}</p>
                         </div>
                         <div class="info-item">
                             <p class="info-title">BIRTH</p>
-                            <p class="info-value">${new Date(tokenData.pairCreatedAt).toLocaleDateString('en-US')}</p>
+                            <p class="info-value">${tokenData?.pairCreatedAt ? new Date(tokenData.pairCreatedAt).toLocaleDateString('en-US') : '00/00/00'}</p>
                         </div>
                     </div>
                     <div class="social-links">
-                        ${tokenData.socials.find(s => s.type === 'twitter') ? '<a class="social-link" href="https://twitter.com"><i class="fab fa-twitter"></i></a>' : ''}
-                        ${tokenData.socials.find(s => s.type === 'telegram') ? '<a class="social-link" href="https://telegram.org"><i class="fab fa-telegram-plane"></i></a>' : ''}
-                        ${tokenData.websites.length > 0 ? '<a class="social-link" href="https://example.com"><i class="fas fa-globe"></i></a>' : ''}
+                        ${tokenData?.socials?.find(s => s.type === 'twitter') ? '<a class="social-link" href="https://twitter.com"><i class="fab fa-twitter"></i></a>' : ''}
+                        ${tokenData?.socials?.find(s => s.type === 'telegram') ? '<a class="social-link" href="https://telegram.org"><i class="fab fa-telegram-plane"></i></a>' : ''}
+                        ${tokenData?.websites?.length > 0 ? '<a class="social-link" href="https://example.com"><i class="fas fa-globe"></i></a>' : ''}
                     </div>
                 `;
                 statsContainer.appendChild(card);
