@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body { 
             font-family: 'Bebas Neue', sans-serif; 
@@ -27,7 +28,7 @@
         }
 
         .content h1 {
-            font-size: 6em;
+            font-size: 5em;
             margin: 10px 0;
             color: white;
         }
@@ -53,16 +54,11 @@
             margin-top: 10px;
         }
 
-        .social-button {
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-            margin: 0 5px;
-        }
-
-        .social-button img {
-            width: 30px;
-            height: 30px;
+        .social-buttons a {
+            margin: 0 10px;
+            color: white;
+            font-size: 2em;
+            text-decoration: none;
         }
 
         .stats { 
@@ -128,6 +124,7 @@
             justify-content: center;
             align-items: center;
             color: #CB971F;
+            font-size: 1.5em;
         }
 
         .card h4 span {
@@ -182,6 +179,7 @@
             right: 10px;
             background-image: url('https://play-lh.googleusercontent.com/oZa1eCSB6-6c9dzTOQDtovSLgDyg_WY-GZSqab2TALM5Dysbx7jXlvkBofCCzoNKmxN1');
             background-size: cover;
+            border-radius: 5px;
         }
 
         .price-change-positive {
@@ -213,14 +211,19 @@
         }
 
         .buy-token button, .chart-button button {
-            width: 60%;
+            width: 80%;
             padding: 5px;
-            background-color: #000000;
+            background-color: black;
             border: none;
             border-radius: 5px;
             color: white;
             cursor: pointer;
             margin-bottom: 5px;
+        }
+
+        .chart-button button {
+            background-color: white;
+            color: black;
         }
 
         .card .back {
@@ -241,14 +244,34 @@
             align-items: center;
         }
 
-        .card .back iframe {
+        .back iframe {
             width: 100%;
             height: 100%;
-            max-height: 500px;
+            flex: 1;
+        }
+
+        .back .buy-token {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .back .buy-token button {
+            width: 80%;
+            padding: 5px;
+            background-color: black;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 5px;
+        }
+
+        .back button.back-button {
+            background-color: #CB971F;
+            color: white;
         }
 
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="content">
@@ -256,15 +279,9 @@
         <h2>We can make and break your favorite players</h2>
         <h3 onclick="copyToClipboard('7TBqJPw4Ljtjksb5M3u1KwPnqKyL9UBddJPvQr1DQdHb')">CA: 7TBqJPw4Ljtjksb5M3u1KwPnqKyL9UBddJPvQr1DQdHb</h3>
         <div class="social-buttons">
-            <button class="social-button" onclick="window.open('https://dexscreener.com/solana/8k7g45gug3pytreuruc7tghg3kmywx8vc8hbk5hy73w', '_blank')">
-                <img src="https://play-lh.googleusercontent.com/oZa1eCSB6-6c9dzTOQDtovSLgDyg_WY-GZSqab2TALM5Dysbx7jXlvkBofCCzoNKmxN1" alt="Dexscreener">
-            </button>
-            <button class="social-button" onclick="window.open('https://x.com/FifaOnSol', '_blank')">
-                <img src="https://upload.wikimedia.org/wikipedia/en/6/60/Twitter_Logo_as_of_2021.svg" alt="Twitter">
-            </button>
-            <button class="social-button" onclick="window.open('https://t.me/+56BmcHTpCbI5NjQ0', '_blank')">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
-            </button>
+            <a href="https://dexscreener.com/solana/8k7g45gug3pytreuruc7tghg3kmywx8vc8hbk5hy73w" target="_blank" class="social-link"><i class="fab fa-dexscreener"></i></a>
+            <a href="https://x.com/FifaOnSol" target="_blank" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="https://t.me/+56BmcHTpCbI5NjQ0" target="_blank" class="social-link"><i class="fab fa-telegram"></i></a>
         </div>
     </div>
 
@@ -398,33 +415,33 @@
                             ${tokenData.websites.map(website => website.url ? `<a href="${website.url}" target="_blank" class="social-link"><i class="fas fa-globe social-icon"></i></a>` : '').join('')}
                         </div>
                         <div class="buy-token">
-                            <button onclick="buyToken('${player.ca}', 'jupiter')">Buy on Jupiter</button>
-                            <button onclick="buyToken('${player.ca}', 'raydium')">Buy on Raydium</button>
+                            <button onclick="buyToken('${player.ca}')">Buy on Jupiter</button>
+                            <button onclick="buyTokenRaydium('${player.ca}')">Buy on Raydium</button>
                         </div>
                         <div class="chart-button">
                             <button onclick="flipCard(this)">Chart</button>
                         </div>
                     </div>
                     <div class="back">
-                        <iframe src="https://birdeye.so/tv-widget/DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263?chain=solana&chartType=candle&chartInterval=3&chartLeftToolbar=hide&address=${player.ca}" frameborder="0" allowfullscreen></iframe>
+                        <iframe src="https://birdeye.so/tv-widget/${player.ca}?chain=solana&chartType=candle&chartInterval=3&chartLeftToolbar=hide" frameborder="0" allowfullscreen></iframe>
                         <div class="buy-token">
-                            <button onclick="buyToken('${player.ca}', 'jupiter')">Buy on Jupiter</button>
-                            <button onclick="buyToken('${player.ca}', 'raydium')">Buy on Raydium</button>
+                            <button onclick="buyToken('${player.ca}')">Buy on Jupiter</button>
+                            <button onclick="buyTokenRaydium('${player.ca}')">Buy on Raydium</button>
                         </div>
-                        <button onclick="flipCard(this)">Back</button>
+                        <button class="back-button" onclick="flipCard(this)">Back</button>
                     </div>
                 `;
                 statsDiv.appendChild(playerCard);
             }
         }
 
-        async function buyToken(ca, platform) {
-            let url;
-            if (platform === 'jupiter') {
-                url = `https://jup.ag/swap?from=SOL&to=${ca}`;
-            } else if (platform === 'raydium') {
-                url = `https://raydium.io/swap/?inputMint=sol&outputMint=${ca}`;
-            }
+        async function buyToken(ca) {
+            const url = `https://jup.ag/swap?from=SOL&to=${ca}`;
+            window.open(url, '_blank');
+        }
+
+        async function buyTokenRaydium(ca) {
+            const url = `https://raydium.io/swap/?inputMint=sol&outputMint=${ca}`;
             window.open(url, '_blank');
         }
 
