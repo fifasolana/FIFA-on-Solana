@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>$FIFA - We Control the Game</title>
-    <link rel="icon" href="path/to/your/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -27,7 +27,7 @@
         }
 
         .content h1 {
-            font-size: 5em;
+            font-size: 6em;
             margin: 10px 0;
             color: white;
         }
@@ -53,14 +53,14 @@
             margin-top: 10px;
         }
 
-        .dex-button, .twitter-button, .telegram-button {
+        .social-button {
             background-color: transparent;
             border: none;
             cursor: pointer;
             margin: 0 5px;
         }
 
-        .dex-button img, .twitter-button img, .telegram-button img {
+        .social-button img {
             width: 30px;
             height: 30px;
         }
@@ -215,7 +215,7 @@
         .buy-token button, .chart-button button {
             width: 60%;
             padding: 5px;
-            background-color: #CB971F;
+            background-color: #000000;
             border: none;
             border-radius: 5px;
             color: white;
@@ -240,7 +240,13 @@
         #dexscreener-embed {
             position: relative;
             width: 100%;
-            padding-bottom: 65%;
+            padding-bottom: 125%;
+        }
+
+        @media(min-width:1400px) {
+            #dexscreener-embed {
+                padding-bottom: 65%;
+            }
         }
 
         #dexscreener-embed iframe {
@@ -256,19 +262,19 @@
 </head>
 <body>
     <div class="content">
-        <h1>FIFA</h1>
+        <h1>$FIFA</h1>
         <h2>We can make and break your favorite players</h2>
         <h3 onclick="copyToClipboard('7TBqJPw4Ljtjksb5M3u1KwPnqKyL9UBddJPvQr1DQdHb')">CA: 7TBqJPw4Ljtjksb5M3u1KwPnqKyL9UBddJPvQr1DQdHb</h3>
         <div class="social-buttons">
-            <a href="https://dexscreener.com/solana/8k7g45gug3pytreuruc7tghg3kmywx8vc8hbk5hy73w" target="_blank" class="social-link">
+            <button class="social-button" onclick="window.open('https://dexscreener.com/solana/8k7g45gug3pytreuruc7tghg3kmywx8vc8hbk5hy73w', '_blank')">
                 <img src="https://play-lh.googleusercontent.com/oZa1eCSB6-6c9dzTOQDtovSLgDyg_WY-GZSqab2TALM5Dysbx7jXlvkBofCCzoNKmxN1" alt="Dexscreener">
-            </a>
-            <a href="https://x.com/FifaOnSol" target="_blank" class="social-link">
-                <i class="fab fa-twitter social-icon"></i>
-            </a>
-            <a href="https://t.me/+56BmcHTpCbI5NjQ0" target="_blank" class="social-link">
-                <i class="fab fa-telegram social-icon"></i>
-            </a>
+            </button>
+            <button class="social-button" onclick="window.open('https://x.com/FifaOnSol', '_blank')">
+                <img src="https://upload.wikimedia.org/wikipedia/en/6/60/Twitter_Logo_as_of_2021.svg" alt="Twitter">
+            </button>
+            <button class="social-button" onclick="window.open('https://t.me/+56BmcHTpCbI5NjQ0', '_blank')">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
+            </button>
         </div>
     </div>
 
@@ -401,19 +407,19 @@
                             ${tokenData.socials.map(social => social.url ? `<a href="${social.url}" target="_blank" class="social-link"><i class="fab fa-${social.type} social-icon"></i></a>` : '').join('')}
                             ${tokenData.websites.map(website => website.url ? `<a href="${website.url}" target="_blank" class="social-link"><i class="fas fa-globe social-icon"></i></a>` : '').join('')}
                         </div>
-                        <div class="chart-button">
-                            <button onclick="flipCard(this)">Chart</button>
-                        </div>
                         <div class="buy-token">
                             <button onclick="buyToken('${player.ca}', 'jupiter')">Buy on Jupiter</button>
                             <button onclick="buyToken('${player.ca}', 'raydium')">Buy on Raydium</button>
+                        </div>
+                        <div class="chart-button">
+                            <button onclick="flipCard(this)">Chart</button>
                         </div>
                     </div>
                     <div class="back">
                         <div id="dexscreener-embed">
                             <iframe src="https://dexscreener.com/solana/${player.ca}?embed=1&theme=dark&info=0"></iframe>
                         </div>
-                        <button class="chart-button" onclick="flipCard(this)">Back</button>
+                        <button onclick="flipCard(this)">Back</button>
                     </div>
                 `;
                 statsDiv.appendChild(playerCard);
