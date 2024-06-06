@@ -23,25 +23,25 @@
 
         .content {
             text-align: center;
-            margin-top: 10px; /* Adjusted to reduce spacing */
+            margin-top: 10px;
         }
 
         .content h1 {
-            font-size: 5em; /* Enlarged font size */
-            margin: 10px 0; /* Adjusted margin */
+            font-size: 5em;
+            margin: 10px 0;
             color: white;
         }
 
         .content h2 {
-            font-size: 1.5em; /* Adjusted font size */
+            font-size: 1.5em;
             font-style: italic;
-            margin: 5px 0; /* Adjusted margin */
+            margin: 5px 0;
             color: white;
         }
 
         .content h3 {
-            font-size: 1em; /* Adjusted font size */
-            margin: 5px 0; /* Adjusted margin */
+            font-size: 1em;
+            margin: 5px 0;
             color: white;
             cursor: pointer;
         }
@@ -50,7 +50,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 10px; /* Adjusted margin */
+            margin-top: 10px;
         }
 
         .dex-button, .twitter-button, .telegram-button {
@@ -66,7 +66,7 @@
         }
 
         .stats { 
-            margin: 10px; /* Adjusted margin */
+            margin: 10px;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
@@ -87,6 +87,12 @@
             align-items: center;
             text-align: center;
             border: 2px solid transparent;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .card.flipped {
+            transform: rotateY(180deg);
         }
 
         .card::before {
@@ -199,23 +205,14 @@
             font-size: 24px;
         }
 
-        .buy-token {
+        .buy-token, .chart-button {
             margin-top: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        .buy-token input {
-            width: 60%;
-            padding: 5px;
-            margin-bottom: 5px;
-            border-radius: 5px;
-            border: none;
-            text-align: center;
-        }
-
-        .buy-token button {
+        .buy-token button, .chart-button button {
             width: 60%;
             padding: 5px;
             background-color: #CB971F;
@@ -223,6 +220,42 @@
             border-radius: 5px;
             color: white;
             cursor: pointer;
+            margin-bottom: 5px;
+        }
+
+        .card .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-color: #020D51;
+            color: white;
+            border-radius: 16px;
+            padding: 20px;
+            backface-visibility: hidden;
+            transform: rotateY(180deg);
+        }
+
+        #dexscreener-embed {
+            position: relative;
+            width: 100%;
+            padding-bottom: 125%;
+        }
+
+        @media(min-width:1400px) {
+            #dexscreener-embed {
+                padding-bottom: 65%;
+            }
+        }
+
+        #dexscreener-embed iframe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            border: 0;
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -374,9 +407,16 @@
                             ${tokenData.socials.map(social => social.url ? `<a href="${social.url}" target="_blank" class="social-link"><i class="fab fa-${social.type} social-icon"></i></a>` : '').join('')}
                             ${tokenData.websites.map(website => website.url ? `<a href="${website.url}" target="_blank" class="social-link"><i class="fas fa-globe social-icon"></i></a>` : '').join('')}
                         </div>
+                        <div class="chart-button">
+                            <button onclick="flipCard(this)">Chart</button>
+                        </div>
                         <div class="buy-token">
-                            <input type="number" placeholder="Amount" min="1">
                             <button onclick="buyToken('${player.ca}')">Buy</button>
+                        </div>
+                    </div>
+                    <div class="back">
+                        <div id="dexscreener-embed">
+                            <iframe src="https://dexscreener.com/solana/${player.ca}?embed=1&theme=dark&info=0"></iframe>
                         </div>
                     </div>
                 `;
@@ -385,14 +425,13 @@
         }
 
         async function buyToken(ca) {
-            const amount = prompt('Enter the amount of tokens you want to buy:');
-            if (amount && !isNaN(amount)) {
-                // Redirect to Jupiter API for purchase
-                const url = `https://jup.ag/swap?amount=${amount}&from=SOL&to=${ca}`;
-                window.open(url, '_blank');
-            } else {
-                alert('Invalid amount.');
-            }
+            const url = `https://jup.ag/swap?from=SOL&to=${ca}`;
+            window.open(url, '_blank');
+        }
+
+        function flipCard(button) {
+            const card = button.closest('.card');
+            card.classList.toggle('flipped');
         }
 
         displayPlayers();
