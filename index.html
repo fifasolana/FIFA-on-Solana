@@ -376,6 +376,11 @@
                 name: 'Neymar',
                 ca:'HW99ti9uE9eR3y4CwA2NNY1b3si9PNXvDBsjokXbpTwk',
                 image:'https://tmssl.akamaized.net/images/foto/galerie/neymar-brazil-2022-1668947300-97010.jpg?lm=1668947335'
+            },
+            {
+                name: 'Giroud',
+                ca: '65ZbAyj1FDroYYHjWoQyRd7MaGxQZiAsC1X2fHVoiK1s',
+                image:'https://cdn-s-www.dna.fr/images/88259319-D1B7-42DB-B3E2-C42AADFFD168/NW_raw/olivier-giroud-a-fete-sa-100e-selection-de-la-plus-belle-des-manieres-photo-franck-fife-afp-1602108152.jpg'
             }
         ];
 
@@ -539,6 +544,25 @@
                 document.body.style.cursor = 'url("cursor.cur"), auto';
 
     </script>
+    <script>
+    function flipCard(button) {
+        const card = button.closest('.card');
+        const dexButton = card.querySelector('.dex-button-card');
+        const socialLinks = card.querySelectorAll('.social-link');
+
+        if (card.classList.contains('flipped')) {
+            // Revenir à l'avant de la carte
+            dexButton.style.zIndex = '9';
+            socialLinks.forEach(link => link.style.zIndex = '10');
+        } else {
+            // Retourner la carte
+            dexButton.style.zIndex = '0';
+            socialLinks.forEach(link => link.style.zIndex = '0');
+        }
+
+        card.classList.toggle('flipped');
+    }
+</script>
      <footer>
          <p class="featuredask">Want your player to be featured ? Ask us with a Tweet !</p>
         <p>Made by <a href="https://x.com/crypto__coq" target="_blank">@cryptoq</a> and <a href="https://t.me/+E2JxvqYZcMZlNmNk" target="_blank">@edotenseictoteam</a></p>
