@@ -20,7 +20,6 @@
             margin: 0;
             padding: 0;
             cursor: url('cursor.cur'), auto; /* Change this line to the path of your custom cursor */
-
             overflow: auto;
         }
 
@@ -389,8 +388,8 @@
             const statsDiv = document.getElementById('stats');
             const playerData = await Promise.all(players.map(player => fetchTokenData(player.ca)));
 
-            const peleCard = playerData.find(data => data.name.toLowerCase().includes('pelé'));
-            const otherPlayers = playerData.filter(data => !data.name.toLowerCase().includes('pelé'));
+            const peleCard = playerData.find(data => data && data.name && data.name.toLowerCase().includes('pelé'));
+            const otherPlayers = playerData.filter(data => !data || !data.name || !data.name.toLowerCase().includes('pelé'));
 
             const sortedPlayers = [
                 peleCard,
@@ -398,10 +397,14 @@
             ];
 
             sortedPlayers.forEach(player => {
-                console.log(player); // Debug output
+                if (!player || !player.ca) {
+                    console.warn('Skipping undefined player', player);
+                    return;
+                }
+
                 const playerCard = document.createElement('div');
                 playerCard.className = 'card';
-    if (player && player.name && player.name.toLowerCase().includes('pelé')) {
+                if (player && player.name && player.name.toLowerCase().includes('pelé')) {
                     playerCard.classList.add('featured-card');
                 }
                 playerCard.innerHTML = `
