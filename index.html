@@ -22,13 +22,16 @@
 
         .content {
             padding: 15px;
-            text-align: center;
+            overflow: hidden;
+            background-color: rgba(0, 0, 0, 0.06);
         }
 
         h1 {
             font-size: 4em;
             font-weight: 600;
             margin: 0;
+            padding: 10px 0;
+            font-family: "Arial", sans-serif;
             color: #ffffff;
         }
 
@@ -73,10 +76,10 @@
         .card::before {
             content: '';
             position: absolute;
-            top: 8px;
-            left: 8px;
-            right: 8px;
-            bottom: 8px;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
             border: 1px solid #CB971F;
             border-radius: 15px;
             pointer-events: none;
@@ -103,6 +106,7 @@
             justify-content: center;
             align-items: center;
             color: #CB971F;
+            font-weight: bold;
         }
 
         .card h4 span {
@@ -180,44 +184,6 @@
             text-decoration: none;
             font-size: 24px;
         }
-
-        .loading {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100px;
-            height: 100px;
-            margin: 0 10px 10px 0;
-            padding: 20px;
-            border-radius: 5px;
-            text-align: center;
-            background-color: rgba(0, 0, 0, 0.06);
-        }
-
-        .ball-holder {
-            animation: loadingE 1.3s linear infinite;
-        }
-
-        .ball {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 5px dashed #ffffff;
-            box-sizing: border-box;
-        }
-
-        @keyframes loadingE {
-            0% {
-                transform: translate(-50%, -50%) rotate(0deg);
-            }
-            100% {
-                transform: translate(-50%, -50%) rotate(360deg);
-            }
-        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -231,21 +197,15 @@
 
     <div class="stats" id="stats"></div>
 
-    <div class="loading">
-        <div class="ball-holder">
-            <div class="ball"></div>
-        </div>
-    </div>
-
     <script>
         const players = [
             {
-                name: 'Cristiano Ronaldo on SOL',
+                name: 'Ronaldo',
                 ca: 'BHZDqqUuFJLX51upfnDjpNg5x4wniUQD88rLhE3oAP4j',
                 image: 'https://static01.nyt.com/images/2020/10/13/sports/13ronaldoWEB1/13ronaldoWEB1-mediumSquareAt3X.jpg'
             },
             {
-                name: 'Pele',
+                name: 'Pelé',
                 ca: 'EDdoFGdpby82tS2JJ6X2koZhFkPK94hPv6RjmFvP6P3m',
                 image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH55s4_yJ18G-ZdR0UuDssxOMkIy2qglK0Hg&s'
             },
@@ -256,72 +216,89 @@
             },
             {
                 name: 'Diego Maradona',
-                ca: '6cJkMAub1KcBgoBLPJfR91dUnzFq9hpi8rSxnyH5q68o',
-                image: 'https://static01.nyt.com/images/2020/11/25/sports/soccer/25maradona-photos-slide-FH7H/25maradona-photos-slide-FH7H-mediumSquareAt3X.jpg'
-            },
-            {
-                name: 'Mbappe',
                 ca: 'HiRx4TWNmuPK6VKxGKPSw8T7dZ9NuCrakpNpRoiCEyrA',
-                image: 'https://risingkashmir.com/wp-content/uploads/2024/03/d89453b4-7207-4115-bbd2-c39b52c5404c.jpg'
+                image: 'https://static01.nyt.com/images/2020/11/25/sports/soccer/25maradona-photos-slide-FH7H/25maradona-photos-slide-FH7H-mediumSquareAt3X.jpg'
             }
         ];
 
-        document.addEventListener('DOMContentLoaded', () => {
-            displayPlayers();
-        });
+        const statsContainer = document.getElementById('stats');
+        const loadingElement = document.querySelector('.loading');
 
-        function displayPlayers() {
-            const statsContainer = document.getElementById('stats');
-            statsContainer.innerHTML = '';
-            players.forEach(async (player) => {
-                const card = document.createElement('div');
-                card.classList.add('card');
-                card.innerHTML = `
-                    <img src="${player.image}" alt="${player.name}">
-                    <button class="copy-button" onclick="copyToClipboard('${player.ca}')">CA</button>
-                    <button class="dex-button" onclick="window.open('https://dexscreener.com/solana/${player.ca}', '_blank')"></button>
-                    <h4>${player.name.toUpperCase()} / <span>$${player.name.split(' ').pop().toUpperCase()}</span></h4>
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <p class="info-title">TXNS 24H</p>
-                            <p class="info-value">0</p>
-                        </div>
-                        <div class="info-item">
-                            <p class="info-title">VOLUME 24H</p>
-                            <p class="info-value">$0</p>
-                        </div>
-                        <div class="info-item">
-                            <p class="info-title">PRICE 24H</p>
-                            <p class="info-value price-change-negative">0%</p>
-                        </div>
-                        <div class="info-item">
-                            <p class="info-title">LIQUIDITY</p>
-                            <p class="info-value">$0</p>
-                        </div>
-                        <div class="info-item">
-                            <p class="info-title">MARKET CAP</p>
-                            <p class="info-value">$0</p>
-                        </div>
-                        <div class="info-item">
-                            <p class="info-title">BIRTH</p>
-                            <p class="info-value">00/00/00</p>
-                        </div>
-                    </div>
-                    <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
-                        <a href="#" class="social-link"><i class="fas fa-globe"></i></a>
-                    </div>
-                `;
-                statsContainer.appendChild(card);
+        fetch(`https://api.dexscreener.com/latest/dex/pairs/solana/${players.map(player => player.ca).join(',')}`)
+            .then(response => response.json())
+            .then(data => {
+                loadingElement.style.display = 'none';
+                displayPlayers(data.pairs);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                loadingElement.style.display = 'none';
             });
-            document.querySelector('.loading').style.display = 'none';
+
+        function displayPlayers(pairs) {
+            pairs.forEach(pair => {
+                const player = players.find(p => p.ca === pair.baseToken.address);
+                if (player) {
+                    const tokenData = pair;
+
+                    // Limit player name to two words
+                    const playerName = player.name.split(' ').slice(0, 2).join(' ');
+
+                    const card = document.createElement('div');
+                    card.className = 'card';
+
+                    card.innerHTML = `
+                        <img src="${player.image}" alt="${playerName}">
+                        <h4>${playerName} <span>/$${pair.baseToken.symbol}</span></h4>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-title">TXNS 24H</div>
+                                <div class="info-value">${tokenData.txns.h24.buys + tokenData.txns.h24.sells}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-title">VOLUME 24H</div>
+                                <div class="info-value">$${tokenData.volume.h24.toLocaleString()}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-title">PRICE 24H</div>
+                                <div class="info-value ${tokenData.priceChange.h24 < 0 ? 'price-change-negative' : 'price-change-positive'}">
+                                    ${tokenData.priceChange.h24.toFixed(2)}%
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-title">LIQUIDITY</div>
+                                <div class="info-value">$${tokenData.liquidity ? tokenData.liquidity.usd.toLocaleString() : 'N/A'}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-title">MARKET CAP</div>
+                                <div class="info-value">$${tokenData.fdv ? tokenData.fdv.toLocaleString() : 'N/A'}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-title">BIRTH</div>
+                                <div class="info-value">${new Date(tokenData.pairCreatedAt * 1000).toLocaleDateString('en-US')}</div>
+                            </div>
+                        </div>
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                            <a href="#" class="social-link"><i class="fas fa-globe"></i></a>
+                        </div>
+                        <button class="copy-button" onclick="copyToClipboard('${player.ca}')">CA</button>
+                        <button class="dex-button" onclick="window.open('${pair.url}', '_blank')"></button>
+                    `;
+                    statsContainer.appendChild(card);
+                }
+            });
         }
 
         function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Copied to clipboard');
-            });
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alert('Copied to clipboard');
         }
     </script>
 </body>
