@@ -461,34 +461,37 @@
         }
 
         async function displayPlayers() {
-            const statsDiv = document.getElementById('stats');
-            const playerData = await Promise.all(players.map(player => fetchTokenData(player.ca)));
-            const featuredPlusPlayers = [];
-            const featuredPlayers = [];
-            const nonFeaturedPlayers = [];
-        
-            playerData.forEach((data, index) => {
-                if (players[index].featured) {
-                    featuredPlayers.push({ ...players[index], ...data });
-                } else {
-                    nonFeaturedPlayers.push({ ...players[index], ...data });
-                }
-            });
-        
-            nonFeaturedPlayers.sort((a, b) => parseFloat(b.priceChange24h) - parseFloat(a.priceChange24h));
-        
-            const sortedPlayers = [...featuredPlayers, ...nonFeaturedPlayers];
-        
-            sortedPlayers.forEach(player => {
-                console.log(player); // Debug output
-                const playerCard = document.createElement('div');
-                playerCard.className = 'card';
-                 if (player.featuredplus) {
+        const statsDiv = document.getElementById('stats');
+        const playerData = await Promise.all(players.map(player => fetchTokenData(player.ca)));
+
+        const featuredPlusPlayers = [];
+        const featuredPlayers = [];
+        const nonFeaturedPlayers = [];
+
+        playerData.forEach((data, index) => {
+            if (players[index].featuredplus) {
+                featuredPlusPlayers.push({ ...players[index], ...data });
+            } else if (players[index].featured) {
+                featuredPlayers.push({ ...players[index], ...data });
+            } else {
+                nonFeaturedPlayers.push({ ...players[index], ...data });
+            }
+        });
+
+        nonFeaturedPlayers.sort((a, b) => parseFloat(b.priceChange24h) - parseFloat(a.priceChange24h));
+
+        const sortedPlayers = [...featuredPlusPlayers, ...featuredPlayers, ...nonFeaturedPlayers];
+
+        sortedPlayers.forEach(player => {
+            console.log(player); // Debug output
+            const playerCard = document.createElement('div');
+            playerCard.className = 'card';
+            if (player.featuredplus) {
                 playerCard.classList.add('featuredplus-card');
             } else if (player.featured) {
                 playerCard.classList.add('featured-card');
             }
-                playerCard.innerHTML = `
+            playerCard.innerHTML = `
                     <button class="copy-button" onclick="copyToClipboard('${player.ca}')">CA</button>
                     <button class="dex-button-card" onclick="window.open('${player.url}', '_blank')"></button>
                     <img src="${player.image}" alt="${player.name}">
