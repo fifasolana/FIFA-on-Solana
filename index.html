@@ -1,62 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>$FIFA - We Control the Game</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
-        
-        body {
-            font-family: "Open Sans", sans-serif;
-            background-color: #000F6E;
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #000F6E; 
             color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
             margin: 0;
             padding: 0;
-            overflow-y: auto;
+            overflow: auto;
         }
-
-        .content {
-            padding: 15px;
-            overflow: hidden;
-            background-color: rgba(0, 0, 0, 0.06);
+        .background {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50%;
+            height: 50%;
+            z-index: -1;
+            animation: spin 20s linear infinite;
         }
-
-        h1 {
-            font-size: 4em;
-            font-weight: 600;
-            margin: 0;
-            padding: 10px 0;
-            font-family: "Arial", sans-serif;
-            color: #ffffff;
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
-
-        h2 {
-            font-size: 1.5em;
-            font-style: italic;
-            margin: 10px 0;
-            color: #ffffff;
+        .ball {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative;
+            background: radial-gradient(circle, transparent 70%, white 70%);
         }
-
-        h3 {
-            font-size: 1.2em;
-            font-weight: normal;
-            margin: 5px 0;
-            color: #ffffff;
-            cursor: pointer;
+        .ball::before,
+        .ball::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, transparent 70%, white 70%);
         }
-
-        .stats {
-            margin: 20px;
+        .ball::before {
+            width: 100%;
+            height: 100%;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+        .ball::after {
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+        .stats { 
+            margin: 20px; 
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
+            z-index: 1;
         }
-
         .card {
             background-color: #020D51;
             color: #DC980B;
@@ -72,7 +78,6 @@
             text-align: center;
             border: 2px solid transparent;
         }
-
         .card::before {
             content: '';
             position: absolute;
@@ -84,17 +89,14 @@
             border-radius: 15px;
             pointer-events: none;
         }
-
         .card img {
             width: 100%;
             border-radius: 16px 16px 0 0;
         }
-
         .card .container {
             padding: 16px;
             width: 100%;
         }
-
         .card h4 {
             background-color: #ffffff;
             width: 100%;
@@ -107,12 +109,10 @@
             align-items: center;
             color: #CB971F;
         }
-
         .card h4 span {
             color: #000000;
             margin-left: 5px;
         }
-
         .info-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -121,28 +121,23 @@
             margin: 10px 0;
             text-align: center;
         }
-
         .info-item {
             text-align: center;
         }
-
         .info-title {
             color: white;
             font-weight: bold;
             text-transform: uppercase;
             margin: 0;
         }
-
         .info-value {
             color: #DC980B;
             margin: 0;
         }
-
-        .copy-button,
-        .dex-button {
+        .copy-button, .dex-button {
             position: absolute;
             top: 10px;
-            background-color: #CB971F;
+            background-color: #020D51;
             color: white;
             border: none;
             border-radius: 5px;
@@ -151,93 +146,45 @@
             width: 30px;
             height: 30px;
         }
-
         .copy-button {
             right: 10px;
         }
-
         .dex-button {
             top: 43px;
             right: 10px;
-            background-size: cover;
             background-image: url('https://play-lh.googleusercontent.com/oZa1eCSB6-6c9dzTOQDtovSLgDyg_WY-GZSqab2TALM5Dysbx7jXlvkBofCCzoNKmxN1');
+            background-size: cover;
         }
-
         .price-change-positive {
             color: green;
         }
-
         .price-change-negative {
             color: red;
         }
-
         .social-links {
             display: flex;
             justify-content: center;
             margin-top: 10px;
         }
-
         .social-link {
             margin: 0 5px;
             color: white;
             text-decoration: none;
             font-size: 24px;
         }
-
-        .loading {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100px;
-            height: 100px;
-            margin: 0 10px 10px 0;
-            padding: 20px;
-            border-radius: 5px;
-            text-align: center;
-            background-color: rgba(0, 0, 0, 0.06);
-        }
-
-        .ring-1 {
-            width: 45px;
-            height: 45px;
-            margin: 0 auto;
-            padding: 10px;
-            border: 7px dashed #ffffff;
-            border-radius: 100%;
-            animation: loadingD 1.5s 0.3s cubic-bezier(0.17, 0.37, 0.43, 0.67) infinite;
-        }
-
-        @keyframes loadingD {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            50% {
-                transform: rotate(180deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
+        h1 {
+            font-size: 2em;
+            margin: 20px 0;
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-
 <body>
-    <div class="content">
-        <h1>FIFA</h1>
-        <h2>We can make and break your favorite players</h2>
-        <h3 onclick="copyToClipboard('7TBqJPw4Ljtjksb5M3u1KwPnqKyL9UBddJPvQr1DQdHb')">CA: 7TBqJPw4Ljtjksb5M3u1KwPnqKyL9UBddJPvQr1DQdHb</h3>
+    <div class="background">
+        <div class="ball"></div>
     </div>
-
+    <h1>$FIFA - We Control the Game</h1>
     <div class="stats" id="stats"></div>
-
-    <div class="loading">
-        <div class="ring-1"></div>
-    </div>
-
     <script>
         const players = [
             {
@@ -256,3 +203,122 @@
                 image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4Tywp4kEONcgOKJ68J0K0F_hLzLWRXEGyJw&s'
             },
             {
+                name: 'Diego Maradona',
+                ca: '6cJkMAub1KcBgoBLPJfR91dUnzFq9hpi8rSxnyH5q68o',
+                image: 'https://static01.nyt.com/images/2020/11/25/sports/soccer/25maradona-photos-slide-FH7H/25maradona-photos-slide-FH7H-mediumSquareAt3X.jpg'
+            },
+            {
+                name: 'New Player 3',
+                ca: 'HiRx4TWNmuPK6VKxGKPSw8T7dZ9NuCrakpNpRoiCEyrA',
+                image: 'https://risingkashmir.com/wp-content/uploads/2024/03/d89453b4-7207-4115-bbd2-c39b52c5404c.jpg'
+            }
+        ];
+
+        function formatNumber(number) {
+            if (number >= 1e6) {
+                return `$${(number / 1e6).toFixed(1)}M`;
+            } else if (number >= 1e3) {
+                return `$${(number / 1e3).toFixed(1)}K`;
+            } else {
+                return `$${number}`;
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Contract address copied to clipboard');
+            }, (err) => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+
+        async function fetchTokenData(ca) {
+            const url = `https://api.dexscreener.com/latest/dex/tokens/${ca}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const tokenData = data.pairs.find(pair => pair.baseToken.address.toLowerCase() === ca.toLowerCase());
+                console.log(tokenData);  // Debug output
+                return {
+                    name: tokenData ? tokenData.baseToken.name.split(' ').slice(0, 2).join(' ').toUpperCase() : 'N/A',
+                    symbol: tokenData ? '$' + tokenData.baseToken.symbol.toUpperCase() : 'N/A',
+                    txns24h: tokenData ? tokenData.txns.h24.buys + tokenData.txns.h24.sells : 'N/A',
+                    volume24h: tokenData ? tokenData.volume.h24 : 'N/A',
+                    priceChange24h: tokenData ? tokenData.priceChange.h24 : 'N/A',
+                    liquidity: tokenData && tokenData.liquidity ? tokenData.liquidity.usd : 'N/A',
+                    marketCap: tokenData ? tokenData.fdv : 'N/A',
+                    url: tokenData ? tokenData.url : 'N/A',
+                    socials: tokenData && tokenData.info && tokenData.info.socials ? tokenData.info.socials : [],
+                    websites: tokenData && tokenData.info && tokenData.info.websites ? tokenData.info.websites : [],
+                    birth: tokenData ? new Date(tokenData.pairCreatedAt).toLocaleDateString('en-US') : 'N/A'
+                };
+            } catch (error) {
+                console.error('Error fetching token data:', error);
+                return {
+                    name: 'N/A',
+                    symbol: 'N/A',
+                    txns24h: 'N/A',
+                    volume24h: 'N/A',
+                    priceChange24h: 'N/A',
+                    liquidity: 'N/A',
+                    marketCap: 'N/A',
+                    url: 'N/A',
+                    socials: [],
+                    websites: [],
+                    birth: 'N/A'
+                };
+            }
+        }
+
+        async function displayPlayers() {
+            const statsDiv = document.getElementById('stats');
+            for (const player of players) {
+                const tokenData = await fetchTokenData(player.ca);
+                const playerCard = document.createElement('div');
+                playerCard.className = 'card';
+                playerCard.innerHTML = `
+                    <button class="copy-button" onclick="copyToClipboard('${player.ca}')">CA</button>
+                    <button class="dex-button" onclick="window.open('${tokenData.url}', '_blank')"></button>
+                    <img src="${player.image}" alt="${player.name}">
+                    <h4>${tokenData.name} <span>/ ${tokenData.symbol}</span></h4>
+                    <div class="container">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <p class="info-title">TXNS 24H</p>
+                                <p class="info-value">${tokenData.txns24h}</p>
+                            </div>
+                            <div class="info-item">
+                                <p class="info-title">VOLUME 24H</p>
+                                <p class="info-value">${formatNumber(tokenData.volume24h)}</p>
+                            </div>
+                            <div class="info-item">
+                                <p class="info-title">PRICE 24H</p>
+                                <p class="info-value"><span class="${tokenData.priceChange24h >= 0 ? 'price-change-positive' : 'price-change-negative'}">${tokenData.priceChange24h !== 'N/A' ? `${tokenData.priceChange24h.toFixed(2)}%` : 'N/A'}</span></p>
+                            </div>
+                            <div class="info-item">
+                                <p class="info-title">LIQUIDITY</p>
+                                <p class="info-value">${formatNumber(tokenData.liquidity)}</p>
+                            </div>
+                            <div class="info-item">
+                                <p class="info-title">MARKET CAP</p>
+                                <p class="info-value">${formatNumber(tokenData.marketCap)}</p>
+                            </div>
+                            <div class="info-item">
+                                <p class="info-title">BIRTH</p>
+                                <p class="info-value">${tokenData.birth}</p>
+                            </div>
+                        </div>
+                        <div class="social-links">
+                            ${tokenData.socials.map(social => social.url ? `<a href="${social.url}" target="_blank" class="social-link"><i class="fab fa-${social.type} social-icon"></i></a>` : '').join('')}
+                            ${tokenData.websites.map(website => website.url ? `<a href="${website.url}" target="_blank" class="social-link"><i class="fas fa-globe social-icon"></i></a>` : '').join('')}
+                        </div>
+                    </div>
+                `;
+                statsDiv.appendChild(playerCard);
+            }
+        }
+
+        displayPlayers();
+    </script>
+</body>
+</html>
