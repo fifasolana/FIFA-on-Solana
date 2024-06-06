@@ -34,6 +34,19 @@
         z-index: 2;
     }
 
+         .featuredplus-card {
+        background: linear-gradient(109.6deg, rgb(156, 252, 248) 11.2%, rgb(110, 123, 251) 91.1%);
+        color: black;
+    }
+
+    .featuredplus-card h4 {
+        color: black;
+    }
+
+    .featuredplus-card .back {
+        background: linear-gradient(109.6deg, rgb(156, 252, 248) 11.2%, rgb(110, 123, 251) 91.1%);
+    }
+
     footer p {
         margin: 0;
         font-size: 1em;
@@ -382,7 +395,13 @@
                 name: 'Giroud',
                 ca: '65ZbAyj1FDroYYHjWoQyRd7MaGxQZiAsC1X2fHVoiK1s',
                 image:'https://cdn-s-www.dna.fr/images/88259319-D1B7-42DB-B3E2-C42AADFFD168/NW_raw/olivier-giroud-a-fete-sa-100e-selection-de-la-plus-belle-des-manieres-photo-franck-fife-afp-1602108152.jpg'
-            }
+            },
+             {
+            name: 'FIFA',
+            ca:'7TBqJPw4Ljtjksb5M3u1KwPnqKyL9UBddJPvQr1DQdHb',
+            image:'https://www.ege.fr/sites/ege.fr/files/images/FIFA-logo.png',
+            featuredplus: true
+        }
         ];
 
         function formatNumber(number) {
@@ -444,7 +463,7 @@
         async function displayPlayers() {
             const statsDiv = document.getElementById('stats');
             const playerData = await Promise.all(players.map(player => fetchTokenData(player.ca)));
-            
+            const featuredPlusPlayers = [];
             const featuredPlayers = [];
             const nonFeaturedPlayers = [];
         
@@ -464,9 +483,11 @@
                 console.log(player); // Debug output
                 const playerCard = document.createElement('div');
                 playerCard.className = 'card';
-                if (player.featured) {
-                    playerCard.classList.add('featured-card');
-                }
+                 if (player.featuredplus) {
+                playerCard.classList.add('featuredplus-card');
+            } else if (player.featured) {
+                playerCard.classList.add('featured-card');
+            }
                 playerCard.innerHTML = `
                     <button class="copy-button" onclick="copyToClipboard('${player.ca}')">CA</button>
                     <button class="dex-button-card" onclick="window.open('${player.url}', '_blank')"></button>
