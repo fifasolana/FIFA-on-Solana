@@ -197,11 +197,15 @@
         }
 
         .dex-button-card {
-            top: 43px;
-            right: 10px;
-            background-image: url('https://play-lh.googleusercontent.com/oZa1eCSB6-6c9dzTOQDtovSLgDyg_WY-GZSqab2TALM5Dysbx7jXlvkBofCCzoNKmxN1');
-            background-size: cover;
-        }
+    top: 43px;
+    right: 10px;
+    background-image: url('https://play-lh.googleusercontent.com/oZa1eCSB6-6c9dzTOQDtovSLgDyg_WY-GZSqab2TALM5Dysbx7jXlvkBofCCzoNKmxN1');
+    background-size: cover;
+    display: inline-block;
+    width: 40px;  /* Adjusted width for better clickability */
+    height: 40px;  /* Adjusted height for better clickability */
+    cursor: pointer; /* Ensure cursor changes to pointer */
+}
 
         .price-change-positive {
             color: green;
@@ -218,11 +222,16 @@
         }
 
         .social-link {
-            margin: 0 5px;
-            color: white;
-            text-decoration: none;
-            font-size: 24px;
-        }
+    margin: 0 5px;
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;  /* Adjusted width for better clickability */
+    height: 40px;  /* Adjusted height for better clickability */
+}
 
         .buy-token, .chart-button {
             margin-top: 10px;
@@ -297,10 +306,10 @@
         <h2>We can make and break your favorite players</h2>
         <h3 onclick="copyToClipboard('7TBqJPw4Ljtjksb5M3u1KwPnqKyL9UBddJPvQr1DQdHb')">CA: 7TBqJPw4Ljtjksb5M3u1KwPnqKyL9UBddJPvQr1DQdHb</h3>
         <div class="social-buttons">
-            <a href="https://dexscreener.com/solana/8k7g45gug3pytreuruc7tghg3kmywx8vc8hbk5hy73w" target="_blank" class="social-link dex-button"><i></i></a>
-            <a href="https://x.com/FifaOnSol" target="_blank" class="social-link twitter-button"><i class="fab fa-twitter"></i></a>
-            <a href="https://t.me/+56BmcHTpCbI5NjQ0" target="_blank" class="social-link telegram-button"><i class="fab fa-telegram"></i></a>
-        </div>
+    <a href="https://dexscreener.com/solana/8k7g45gug3pytreuruc7tghg3kmywx8vc8hbk5hy73w" target="_blank" class="social-link dex-button" style="background-image: url('https://play-lh.googleusercontent.com/oZa1eCSB6-6c9dzTOQDtovSLgDyg_WY-GZSqab2TALM5Dysbx7jXlvkBofCCzoNKmxN1'); background-size: cover;"></a>
+    <a href="https://x.com/FifaOnSol" target="_blank" class="social-link twitter-button"><i class="fab fa-twitter"></i></a>
+    <a href="https://t.me/+56BmcHTpCbI5NjQ0" target="_blank" class="social-link telegram-button"><i class="fab fa-telegram"></i></a>
+</div>
     </div>
 
     <div class="stats" id="stats"></div>
