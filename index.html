@@ -54,7 +54,7 @@
             margin-top: 10px;
         }
 
-        .dex-button i {
+        .content .social-buttons a:nth-child(1) {
             background-image: url('https://play-lh.googleusercontent.com/oZa1eCSB6-6c9dzTOQDtovSLgDyg_WY-GZSqab2TALM5Dysbx7jXlvkBofCCzoNKmxN1');
             background-size: cover;
             display: inline-block;
@@ -272,9 +272,9 @@
         <h2>We can make and break your favorite players</h2>
         <h3 onclick="copyToClipboard('7TBqJPw4Ljtjksb5M3u1KwPnqKyL9UBddJPvQr1DQdHb')">CA: 7TBqJPw4Ljtjksb5M3u1KwPnqKyL9UBddJPvQr1DQdHb</h3>
         <div class="social-buttons">
-            <a href="https://dexscreener.com/solana/8k7g45gug3pytreuruc7tghg3kmywx8vc8hbk5hy73w" target="_blank" class="social-link"><i class="dex-button i"></i></a>
-            <a href="https://x.com/FifaOnSol" target="_blank" class="social-link"><i class="fab fa-twitter"></i></a>
-            <a href="https://t.me/+56BmcHTpCbI5NjQ0" target="_blank" class="social-link"><i class="fab fa-telegram"></i></a>
+            <a href="https://dexscreener.com/solana/8k7g45gug3pytreuruc7tghg3kmywx8vc8hbk5hy73w" target="_blank" class="social-link dex-button"><i></i></a>
+            <a href="https://x.com/FifaOnSol" target="_blank" class="social-link twitter-button"><i class="fab fa-twitter"></i></a>
+            <a href="https://t.me/+56BmcHTpCbI5NjQ0" target="_blank" class="social-link telegram-button"><i class="fab fa-telegram"></i></a>
         </div>
     </div>
 
@@ -290,7 +290,7 @@
             {
                 name: 'Pelé',
                 ca: 'EDdoFGdpby82tS2JJ6X2koZhFkPK94hPv6RjmFvP6P3m',
-                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH55s4_yJ18G-ZdR0UuDssxOMkIy2qglK0Hg&s'
+                image: 'https://lematindalgerie.com/wp-content/uploads/2022/12/pele.jpg'
             },
             {
                 name: 'Zinedine Zidane',
@@ -305,7 +305,7 @@
             {
                 name: 'Lionel Messi',
                 ca: 'HiRx4TWNmuPK6VKxGKPSw8T7dZ9NuCrakpNpRoiCEyrA',
-                image: 'https://upload.wikimedia.org/wikipedia/commons/9/94/Lionel_Messi_20180626.jpg'
+                image: 'https://caracoltv.brightspotcdn.com/dims4/default/c94ccd7/2147483647/strip/true/crop/1400x992+0+0/resize/1000x709!/quality/90/?url=http%3A%2F%2Fcaracol-brightspot.s3.us-west-2.amazonaws.com%2F27%2F58%2F8ba1c9b14f2f80971a028dd13cfd%2Fgettyimages-1453215385.jpg'
             }
         ];
 
@@ -444,17 +444,4 @@
             if (platform === 'jupiter') {
                 url = `https://jup.ag/swap?from=SOL&to=${ca}`;
             } else if (platform === 'raydium') {
-                url = `https://raydium.io/swap/?inputMint=sol&outputMint=${ca}`;
-            }
-            window.open(url, '_blank');
-        }
-
-        function flipCard(button) {
-            const card = button.closest('.card');
-            card.classList.toggle('flipped');
-        }
-
-        displayPlayers();
-    </script>
-</body>
-</html>
+                url = `
