@@ -390,7 +390,7 @@
             }
         }
 
-         async function displayPlayers() {
+        async function displayPlayers() {
             const statsDiv = document.getElementById('stats');
             const playerData = await Promise.all(players.map(player => fetchTokenData(player.ca)));
             
