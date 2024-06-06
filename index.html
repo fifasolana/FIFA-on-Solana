@@ -54,19 +54,16 @@
             margin-top: 10px;
         }
 
-        .social-buttons a {
-            margin: 0 10px;
-            color: white;
-            font-size: 2em;
-            text-decoration: none;
+        .dex-button, .twitter-button, .telegram-button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            margin: 0 5px;
         }
 
-        .dex-button {
-            background-image: url('https://play-lh.googleusercontent.com/oZa1eCSB6-6c9dzTOQDtovSLgDyg_WY-GZSqab2TALM5Dysbx7jXlvkBofCCzoNKmxN1');
-            background-size: cover;
-            border-radius: 5px;
-            width: 30px;
-            height: 30px;
+        .dex-button i, .twitter-button i, .telegram-button i {
+            font-size: 24px;
+            color: white;
         }
 
         .stats { 
@@ -187,7 +184,6 @@
             right: 10px;
             background-image: url('https://play-lh.googleusercontent.com/oZa1eCSB6-6c9dzTOQDtovSLgDyg_WY-GZSqab2TALM5Dysbx7jXlvkBofCCzoNKmxN1');
             background-size: cover;
-            border-radius: 5px;
         }
 
         .price-change-positive {
@@ -218,10 +214,10 @@
             align-items: center;
         }
 
-        .buy-token button, .chart-button button {
-            width: 80%;
+        .buy-token button, .chart-button button, .back-button {
+            width: 60%;
             padding: 5px;
-            background-color: black;
+            background-color: #CB971F;
             border: none;
             border-radius: 5px;
             color: white;
@@ -229,60 +225,44 @@
             margin-bottom: 5px;
         }
 
-        .chart-button button {
-            background-color: white;
-            color: black;
-        }
-
         .card .back {
             position: absolute;
-            width: 88%;
+            width: 100%;
             height: 100%;
             top: 0;
-            left: 6%;
+            left: 0;
             background-color: #020D51;
             color: white;
             border-radius: 16px;
             padding: 20px;
             backface-visibility: hidden;
             transform: rotateY(180deg);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
         }
 
         #dexscreener-embed {
+            position: relative;
             width: 100%;
-            height: 600px;
+            height: 80%;
+            margin-bottom: 20px;
         }
 
-        .back .buy-token {
-            flex-direction: column;
-            align-items: center;
+        #dexscreener-embed iframe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            border: 0;
         }
 
-        .back .buy-token button {
-            width: 80%;
-            padding: 5px;
-            background-color: black;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            cursor: pointer;
-            margin-bottom: 5px;
-        }
-
-        .back button.back-button {
+        .back-button {
             background-color: #CB971F;
             color: white;
-            width: 60%;
-            padding: 5px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
         }
 
+        #stats > div.card.flipped > div.back > div {
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -291,7 +271,7 @@
         <h2>We can make and break your favorite players</h2>
         <h3 onclick="copyToClipboard('7TBqJPw4Ljtjksb5M3u1KwPnqKyL9UBddJPvQr1DQdHb')">CA: 7TBqJPw4Ljtjksb5M3u1KwPnqKyL9UBddJPvQr1DQdHb</h3>
         <div class="social-buttons">
-            <a href="https://dexscreener.com/solana/8k7g45gug3pytreuruc7tghg3kmywx8vc8hbk5hy73w" target="_blank" class="social-link dex-button"></a>
+            <a href="https://dexscreener.com/solana/8k7g45gug3pytreuruc7tghg3kmywx8vc8hbk5hy73w" target="_blank" class="social-link"><i class="fab fa-dexscreener"></i></a>
             <a href="https://x.com/FifaOnSol" target="_blank" class="social-link"><i class="fab fa-twitter"></i></a>
             <a href="https://t.me/+56BmcHTpCbI5NjQ0" target="_blank" class="social-link"><i class="fab fa-telegram"></i></a>
         </div>
@@ -302,14 +282,14 @@
     <script>
         const players = [
             {
-                name: 'Pelé',
-                ca: 'EDdoFGdpby82tS2JJ6X2koZhFkPK94hPv6RjmFvP6P3m',
-                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH55s4_yJ18G-ZdR0UuDssxOMkIy2qglK0Hg&s'
-            },
-            {
                 name: 'Ronaldo',
                 ca: 'BHZDqqUuFJLX51upfnDjpNg5x4wniUQD88rLhE3oAP4j',
                 image: 'https://static01.nyt.com/images/2020/10/13/sports/13ronaldoWEB1/13ronaldoWEB1-mediumSquareAt3X.jpg'
+            },
+            {
+                name: 'Pelé',
+                ca: 'EDdoFGdpby82tS2JJ6X2koZhFkPK94hPv6RjmFvP6P3m',
+                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH55s4_yJ18G-ZdR0UuDssxOMkIy2qglK0Hg&s'
             },
             {
                 name: 'Zinedine Zidane',
@@ -386,10 +366,13 @@
 
         async function displayPlayers() {
             const statsDiv = document.getElementById('stats');
-            const sortedPlayers = players.slice(1).sort((a, b) => b.priceChange24h - a.priceChange24h);
-            const sortedAndPele = [players[0], ...sortedPlayers];
+            players.sort((a, b) => {
+                if (a.name === 'Pelé') return -1;
+                if (b.name === 'Pelé') return 1;
+                return parseFloat(b.priceChange24h) - parseFloat(a.priceChange24h);
+            });
 
-            for (const player of sortedAndPele) {
+            for (const player of players) {
                 const tokenData = await fetchTokenData(player.ca);
                 const playerCard = document.createElement('div');
                 playerCard.className = 'card';
@@ -430,18 +413,20 @@
                             ${tokenData.websites.map(website => website.url ? `<a href="${website.url}" target="_blank" class="social-link"><i class="fas fa-globe social-icon"></i></a>` : '').join('')}
                         </div>
                         <div class="buy-token">
-                            <button onclick="buyToken('${player.ca}')">Buy on Jupiter</button>
-                            <button onclick="buyTokenRaydium('${player.ca}')">Buy on Raydium</button>
+                            <button style="background-color:black" onclick="buyToken('${player.ca}', 'jupiter')">Buy on Jupiter</button>
+                            <button style="background-color:black" onclick="buyToken('${player.ca}', 'raydium')">Buy on Raydium</button>
                         </div>
                         <div class="chart-button">
-                            <button onclick="flipCard(this)">Chart</button>
+                            <button style="background-color:white;color:black" onclick="flipCard(this)">Chart</button>
                         </div>
                     </div>
                     <div class="back">
-                        <iframe src="https://birdeye.so/tv-widget/${player.ca}?chain=solana&chartType=candle&chartInterval=3&chartLeftToolbar=hide" frameborder="0" allowfullscreen></iframe>
+                        <div id="dexscreener-embed">
+                            <iframe src="https://birdeye.so/tv-widget/${player.ca}?chain=solana&chartType=candle&chartInterval=3&chartLeftToolbar=hide" frameborder="0" allowfullscreen></iframe>
+                        </div>
                         <div class="buy-token">
-                            <button onclick="buyToken('${player.ca}')">Buy on Jupiter</button>
-                            <button onclick="buyTokenRaydium('${player.ca}')">Buy on Raydium</button>
+                            <button style="background-color:black" onclick="buyToken('${player.ca}', 'jupiter')">Buy on Jupiter</button>
+                            <button style="background-color:black" onclick="buyToken('${player.ca}', 'raydium')">Buy on Raydium</button>
                         </div>
                         <button class="back-button" onclick="flipCard(this)">Back</button>
                     </div>
@@ -450,13 +435,13 @@
             }
         }
 
-        async function buyToken(ca) {
-            const url = `https://jup.ag/swap?from=SOL&to=${ca}`;
-            window.open(url, '_blank');
-        }
-
-        async function buyTokenRaydium(ca) {
-            const url = `https://raydium.io/swap/?inputMint=sol&outputMint=${ca}`;
+        async function buyToken(ca, platform) {
+            let url;
+            if (platform === 'jupiter') {
+                url = `https://jup.ag/swap?from=SOL&to=${ca}`;
+            } else if (platform === 'raydium') {
+                url = `https://raydium.io/swap/?inputMint=sol&outputMint=${ca}`;
+            }
             window.open(url, '_blank');
         }
 
