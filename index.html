@@ -302,14 +302,14 @@
     <script>
         const players = [
             {
-                name: 'Ronaldo',
-                ca: 'BHZDqqUuFJLX51upfnDjpNg5x4wniUQD88rLhE3oAP4j',
-                image: 'https://static01.nyt.com/images/2020/10/13/sports/13ronaldoWEB1/13ronaldoWEB1-mediumSquareAt3X.jpg'
-            },
-            {
                 name: 'Pelé',
                 ca: 'EDdoFGdpby82tS2JJ6X2koZhFkPK94hPv6RjmFvP6P3m',
                 image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH55s4_yJ18G-ZdR0UuDssxOMkIy2qglK0Hg&s'
+            },
+            {
+                name: 'Ronaldo',
+                ca: 'BHZDqqUuFJLX51upfnDjpNg5x4wniUQD88rLhE3oAP4j',
+                image: 'https://static01.nyt.com/images/2020/10/13/sports/13ronaldoWEB1/13ronaldoWEB1-mediumSquareAt3X.jpg'
             },
             {
                 name: 'Zinedine Zidane',
@@ -386,7 +386,10 @@
 
         async function displayPlayers() {
             const statsDiv = document.getElementById('stats');
-            for (const player of players) {
+            const sortedPlayers = players.slice(1).sort((a, b) => b.priceChange24h - a.priceChange24h);
+            const sortedAndPele = [players[0], ...sortedPlayers];
+
+            for (const player of sortedAndPele) {
                 const tokenData = await fetchTokenData(player.ca);
                 const playerCard = document.createElement('div');
                 playerCard.className = 'card';
