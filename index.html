@@ -54,14 +54,15 @@
             margin-top: 10px;
         }
 
-        .dex-button, .twitter-button, .telegram-button {
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-            margin: 0 5px;
+        .dex-button i {
+            background-image: url('https://play-lh.googleusercontent.com/oZa1eCSB6-6c9dzTOQDtovSLgDyg_WY-GZSqab2TALM5Dysbx7jXlvkBofCCzoNKmxN1');
+            background-size: cover;
+            display: inline-block;
+            width: 30px;
+            height: 30px;
         }
 
-        .dex-button i, .twitter-button i, .telegram-button i {
+        .twitter-button i, .telegram-button i {
             font-size: 24px;
             color: white;
         }
@@ -227,8 +228,8 @@
 
         .card .back {
             position: absolute;
-            width: 100%;
-            height: 100%;
+            width: 88%;
+            height: 94%;
             top: 0;
             left: 0;
             background-color: #020D51;
@@ -271,7 +272,7 @@
         <h2>We can make and break your favorite players</h2>
         <h3 onclick="copyToClipboard('7TBqJPw4Ljtjksb5M3u1KwPnqKyL9UBddJPvQr1DQdHb')">CA: 7TBqJPw4Ljtjksb5M3u1KwPnqKyL9UBddJPvQr1DQdHb</h3>
         <div class="social-buttons">
-            <a href="https://dexscreener.com/solana/8k7g45gug3pytreuruc7tghg3kmywx8vc8hbk5hy73w" target="_blank" class="social-link"><i class="fab fa-dexscreener"></i></a>
+            <a href="https://dexscreener.com/solana/8k7g45gug3pytreuruc7tghg3kmywx8vc8hbk5hy73w" target="_blank" class="social-link"><i class="dex-button i"></i></a>
             <a href="https://x.com/FifaOnSol" target="_blank" class="social-link"><i class="fab fa-twitter"></i></a>
             <a href="https://t.me/+56BmcHTpCbI5NjQ0" target="_blank" class="social-link"><i class="fab fa-telegram"></i></a>
         </div>
@@ -302,9 +303,9 @@
                 image: 'https://static01.nyt.com/images/2020/11/25/sports/soccer/25maradona-photos-slide-FH7H/25maradona-photos-slide-FH7H-mediumSquareAt3X.jpg'
             },
             {
-                name: 'New Player 3',
+                name: 'Lionel Messi',
                 ca: 'HiRx4TWNmuPK6VKxGKPSw8T7dZ9NuCrakpNpRoiCEyrA',
-                image: 'https://risingkashmir.com/wp-content/uploads/2024/03/d89453b4-7207-4115-bbd2-c39b52c5404c.jpg'
+                image: 'https://upload.wikimedia.org/wikipedia/commons/9/94/Lionel_Messi_20180626.jpg'
             }
         ];
 
@@ -332,7 +333,6 @@
                 const response = await fetch(url);
                 const data = await response.json();
                 const tokenData = data.pairs.find(pair => pair.baseToken.address.toLowerCase() === ca.toLowerCase());
-                console.log(tokenData);  // Debug output
                 return {
                     name: tokenData ? tokenData.baseToken.name.split(' ').slice(0, 2).join(' ').toUpperCase() : 'N/A',
                     symbol: tokenData ? '$' + tokenData.baseToken.symbol.toUpperCase() : 'N/A',
@@ -366,51 +366,55 @@
 
         async function displayPlayers() {
             const statsDiv = document.getElementById('stats');
-            players.sort((a, b) => {
+            const playerData = await Promise.all(players.map(player => fetchTokenData(player.ca)));
+
+            const sortedPlayers = playerData.map((data, index) => ({
+                ...players[index],
+                ...data
+            })).sort((a, b) => {
                 if (a.name === 'Pelé') return -1;
                 if (b.name === 'Pelé') return 1;
                 return parseFloat(b.priceChange24h) - parseFloat(a.priceChange24h);
             });
 
-            for (const player of players) {
-                const tokenData = await fetchTokenData(player.ca);
+            sortedPlayers.forEach(player => {
                 const playerCard = document.createElement('div');
                 playerCard.className = 'card';
                 playerCard.innerHTML = `
                     <button class="copy-button" onclick="copyToClipboard('${player.ca}')">CA</button>
-                    <button class="dex-button-card" onclick="window.open('${tokenData.url}', '_blank')"></button>
+                    <button class="dex-button-card" onclick="window.open('${player.url}', '_blank')"></button>
                     <img src="${player.image}" alt="${player.name}">
-                    <h4>${tokenData.name} <span>/ ${tokenData.symbol}</span></h4>
+                    <h4>${player.name} <span>/ ${player.symbol}</span></h4>
                     <div class="container">
                         <div class="info-grid">
                             <div class="info-item">
                                 <p class="info-title">TXNS 24H</p>
-                                <p class="info-value">${tokenData.txns24h}</p>
+                                <p class="info-value">${player.txns24h}</p>
                             </div>
                             <div class="info-item">
                                 <p class="info-title">VOLUME 24H</p>
-                                <p class="info-value">${formatNumber(tokenData.volume24h)}</p>
+                                <p class="info-value">${formatNumber(player.volume24h)}</p>
                             </div>
                             <div class="info-item">
                                 <p class="info-title">PRICE 24H</p>
-                                <p class="info-value"><span class="${tokenData.priceChange24h >= 0 ? 'price-change-positive' : 'price-change-negative'}">${tokenData.priceChange24h !== 'N/A' ? `${tokenData.priceChange24h.toFixed(2)}%` : 'N/A'}</span></p>
+                                <p class="info-value"><span class="${player.priceChange24h >= 0 ? 'price-change-positive' : 'price-change-negative'}">${player.priceChange24h !== 'N/A' ? `${player.priceChange24h.toFixed(2)}%` : 'N/A'}</span></p>
                             </div>
                             <div class="info-item">
                                 <p class="info-title">LIQUIDITY</p>
-                                <p class="info-value">${formatNumber(tokenData.liquidity)}</p>
+                                <p class="info-value">${formatNumber(player.liquidity)}</p>
                             </div>
                             <div class="info-item">
                                 <p class="info-title">MARKET CAP</p>
-                                <p class="info-value">${formatNumber(tokenData.marketCap)}</p>
+                                <p class="info-value">${formatNumber(player.marketCap)}</p>
                             </div>
                             <div class="info-item">
                                 <p class="info-title">BIRTH</p>
-                                <p class="info-value">${tokenData.birth}</p>
+                                <p class="info-value">${player.birth}</p>
                             </div>
                         </div>
                         <div class="social-links">
-                            ${tokenData.socials.map(social => social.url ? `<a href="${social.url}" target="_blank" class="social-link"><i class="fab fa-${social.type} social-icon"></i></a>` : '').join('')}
-                            ${tokenData.websites.map(website => website.url ? `<a href="${website.url}" target="_blank" class="social-link"><i class="fas fa-globe social-icon"></i></a>` : '').join('')}
+                            ${player.socials.map(social => social.url ? `<a href="${social.url}" target="_blank" class="social-link"><i class="fab fa-${social.type} social-icon"></i></a>` : '').join('')}
+                            ${player.websites.map(website => website.url ? `<a href="${website.url}" target="_blank" class="social-link"><i class="fas fa-globe social-icon"></i></a>` : '').join('')}
                         </div>
                         <div class="buy-token">
                             <button style="background-color:black" onclick="buyToken('${player.ca}', 'jupiter')">Buy on Jupiter</button>
@@ -432,7 +436,7 @@
                     </div>
                 `;
                 statsDiv.appendChild(playerCard);
-            }
+            });
         }
 
         async function buyToken(ca, platform) {
