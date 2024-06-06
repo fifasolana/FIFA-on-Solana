@@ -54,30 +54,15 @@
         }
 
         .dex-button, .twitter-button, .telegram-button {
-            background-color: #CB971F;
-            color: white;
+            background-color: transparent;
             border: none;
-            border-radius: 5px;
-            padding: 5px;
             cursor: pointer;
-            width: 30px;
-            height: 30px;
             margin: 0 5px;
         }
 
-        .dex-button {
-            background-image: url('https://play-lh.googleusercontent.com/oZa1eCSB6-6c9dzTOQDtovSLgDyg_WY-GZSqab2TALM5Dysbx7jXlvkBofCCzoNKmxN1');
-            background-size: cover;
-        }
-
-        .twitter-button {
-            background-image: url('https://upload.wikimedia.org/wikipedia/en/6/60/Twitter_Logo_as_of_2021.svg');
-            background-size: cover;
-        }
-
-        .telegram-button {
-            background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg');
-            background-size: cover;
+        .dex-button img, .twitter-button img, .telegram-button img {
+            width: 30px;
+            height: 30px;
         }
 
         .stats { 
@@ -214,9 +199,30 @@
             font-size: 24px;
         }
 
-        h1 {
-            font-size: 5em;
-            margin: 20px 0;
+        .buy-token {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .buy-token input {
+            width: 60%;
+            padding: 5px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            border: none;
+            text-align: center;
+        }
+
+        .buy-token button {
+            width: 60%;
+            padding: 5px;
+            background-color: #CB971F;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -227,9 +233,15 @@
         <h2>We can make and break your favorite players</h2>
         <h3 onclick="copyToClipboard('7TBqJPw4Ljtjksb5M3u1KwPnqKyL9UBddJPvQr1DQdHb')">CA: 7TBqJPw4Ljtjksb5M3u1KwPnqKyL9UBddJPvQr1DQdHb</h3>
         <div class="social-buttons">
-            <button class="dex-button" onclick="window.open('https://dexscreener.com/solana/8k7g45gug3pytreuruc7tghg3kmywx8vc8hbk5hy73w', '_blank')"></button>
-            <button class="twitter-button" onclick="window.open('https://x.com/FifaOnSol', '_blank')"></button>
-            <button class="telegram-button" onclick="window.open('https://t.me/+56BmcHTpCbI5NjQ0', '_blank')"></button>
+            <button class="dex-button" onclick="window.open('https://dexscreener.com/solana/8k7g45gug3pytreuruc7tghg3kmywx8vc8hbk5hy73w', '_blank')">
+                <img src="https://play-lh.googleusercontent.com/oZa1eCSB6-6c9dzTOQDtovSLgDyg_WY-GZSqab2TALM5Dysbx7jXlvkBofCCzoNKmxN1" alt="Dexscreener">
+            </button>
+            <button class="twitter-button" onclick="window.open('https://x.com/FifaOnSol', '_blank')">
+                <img src="https://upload.wikimedia.org/wikipedia/en/6/60/Twitter_Logo_as_of_2021.svg" alt="Twitter">
+            </button>
+            <button class="telegram-button" onclick="window.open('https://t.me/+56BmcHTpCbI5NjQ0', '_blank')">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
+            </button>
         </div>
     </div>
 
@@ -362,9 +374,24 @@
                             ${tokenData.socials.map(social => social.url ? `<a href="${social.url}" target="_blank" class="social-link"><i class="fab fa-${social.type} social-icon"></i></a>` : '').join('')}
                             ${tokenData.websites.map(website => website.url ? `<a href="${website.url}" target="_blank" class="social-link"><i class="fas fa-globe social-icon"></i></a>` : '').join('')}
                         </div>
+                        <div class="buy-token">
+                            <input type="number" placeholder="Amount" min="1">
+                            <button onclick="buyToken('${player.ca}')">Buy</button>
+                        </div>
                     </div>
                 `;
                 statsDiv.appendChild(playerCard);
+            }
+        }
+
+        async function buyToken(ca) {
+            const amount = prompt('Enter the amount of tokens you want to buy:');
+            if (amount && !isNaN(amount)) {
+                // Redirect to Jupiter API for purchase
+                const url = `https://jup.ag/swap?amount=${amount}&from=SOL&to=${ca}`;
+                window.open(url, '_blank');
+            } else {
+                alert('Invalid amount.');
             }
         }
 
