@@ -401,7 +401,7 @@
                 console.log(player); // Debug output
                 const playerCard = document.createElement('div');
                 playerCard.className = 'card';
-                if (player.name.toLowerCase().includes('pelé')) {
+    if (player && player.name && player.name.toLowerCase().includes('pelé')) {
                     playerCard.classList.add('featured-card');
                 }
                 playerCard.innerHTML = `
