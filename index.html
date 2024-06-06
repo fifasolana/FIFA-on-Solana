@@ -394,16 +394,22 @@
         async function displayPlayers() {
             const statsDiv = document.getElementById('stats');
             const playerData = await Promise.all(players.map(player => fetchTokenData(player.ca)));
-            const peleCardIndex = playerData.findIndex(data => data.ca === 'EDdoFGdpby82tS2JJ6X2koZhFkPK94hPv6RjmFvP6P3m');
-            if (peleCardIndex > -1) {
-                const peleCard = playerData.splice(peleCardIndex, 1)[0]; // Retirer la carte de Pelé du tableau et la stocker
-                playerData.unshift(peleCard); // Ajouter la carte de Pelé au début du tableau
-            }
-            const sortedPlayers = playerData.map((data, index) => ({
-                ...players[index],
-                ...data
-            }));
-
+            
+            const featuredPlayers = [];
+            const nonFeaturedPlayers = [];
+        
+            playerData.forEach((data, index) => {
+                if (players[index].featured) {
+                    featuredPlayers.push({ ...players[index], ...data });
+                } else {
+                    nonFeaturedPlayers.push({ ...players[index], ...data });
+                }
+            });
+        
+            nonFeaturedPlayers.sort((a, b) => parseFloat(b.priceChange24h) - parseFloat(a.priceChange24h));
+        
+            const sortedPlayers = [...featuredPlayers, ...nonFeaturedPlayers];
+        
             sortedPlayers.forEach(player => {
                 console.log(player); // Debug output
                 const playerCard = document.createElement('div');
