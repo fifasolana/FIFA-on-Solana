@@ -390,20 +390,22 @@
             }
         }
 
-        async function displayPlayers() {
+         async function displayPlayers() {
             const statsDiv = document.getElementById('stats');
             const playerData = await Promise.all(players.map(player => fetchTokenData(player.ca)));
             
+            // Trier les joueurs par changement de prix sur 24h
             const sortedPlayers = playerData.map((data, index) => ({
                 ...players[index],
                 ...data
-            })).sort((a, b) => {
-                if (a.name === 'Pelé') return -1;
-                if (b.name === 'Pelé') return 1;
-                return parseFloat(b.priceChange24h) - parseFloat(a.priceChange24h);
-            });
+            })).sort((a, b) => parseFloat(b.priceChange24h) - parseFloat(a.priceChange24h));
 
-            sortedPlayers.forEach(player => {
+            // Mettre Pelé en premier
+            const pele = sortedPlayers.find(player => player.name === 'Pelé');
+            const otherPlayers = sortedPlayers.filter(player => player.name !== 'Pelé');
+            const finalPlayers = [pele, ...otherPlayers];
+
+            finalPlayers.forEach(player => {
                 console.log(player); // Debug output
                 const playerCard = document.createElement('div');
                 playerCard.className = 'card';
