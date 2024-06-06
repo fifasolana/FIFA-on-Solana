@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body { 
             font-family: 'Bebas Neue', sans-serif; 
@@ -53,9 +54,17 @@
             margin-top: 10px;
         }
 
-        .dex-button img, .twitter-button img, .telegram-button img {
+        .content .social-buttons a:nth-child(1) {
+            background-image: url('https://play-lh.googleusercontent.com/oZa1eCSB6-6c9dzTOQDtovSLgDyg_WY-GZSqab2TALM5Dysbx7jXlvkBofCCzoNKmxN1');
+            background-size: cover;
+            display: inline-block;
             width: 30px;
             height: 30px;
+        }
+
+        .twitter-button i, .telegram-button i {
+            font-size: 24px;
+            color: white;
         }
 
         .stats { 
@@ -103,8 +112,6 @@
         .card img {
             width: 100%;
             border-radius: 16px 16px 0 0;
-            height: 300px; /* Fixing image height */
-            object-fit: cover;
         }
 
         .card .container {
@@ -123,6 +130,7 @@
             justify-content: center;
             align-items: center;
             color: #CB971F;
+            font-size: 1.5em;
         }
 
         .card h4 span {
@@ -207,7 +215,7 @@
             align-items: center;
         }
 
-        .buy-token button, .chart-button button {
+        .buy-token button, .chart-button button, .back-button {
             width: 60%;
             padding: 5px;
             background-color: #CB971F;
@@ -220,8 +228,8 @@
 
         .card .back {
             position: absolute;
-            width: 88%; /* Adjusted */
-            height: 94%; /* Adjusted */
+            width: 88%;
+            height: 94%;
             top: 0;
             left: 0;
             background-color: #020D51;
@@ -235,13 +243,8 @@
         #dexscreener-embed {
             position: relative;
             width: 100%;
-            height: 80%; /* Adjusted */
-        }
-
-        @media(min-width:1400px) {
-            #dexscreener-embed {
-                padding-bottom: 65%;
-            }
+            height: 80%;
+            margin-bottom: 20px;
         }
 
         #dexscreener-embed iframe {
@@ -254,27 +257,24 @@
         }
 
         .back-button {
-            width: 60%;
-            padding: 5px;
             background-color: #CB971F;
-            border: none;
-            border-radius: 5px;
             color: white;
-            cursor: pointer;
-            margin-bottom: 5px;
+        }
+
+        #stats > div.card.flipped > div.back > div {
+            width: 100%;
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="content">
-        <h1>$FIFA</h1>
+        <h1>$FIFA</h2>
         <h2>We can make and break your favorite players</h2>
         <h3 onclick="copyToClipboard('7TBqJPw4Ljtjksb5M3u1KwPnqKyL9UBddJPvQr1DQdHb')">CA: 7TBqJPw4Ljtjksb5M3u1KwPnqKyL9UBddJPvQr1DQdHb</h3>
         <div class="social-buttons">
-            <a href="https://dexscreener.com/solana/8k7g45gug3pytreuruc7tghg3kmywx8vc8hbk5hy73w" target="_blank" class="social-link" style="background-image: url('https://play-lh.googleusercontent.com/oZa1eCSB6-6c9dzTOQDtovSLgDyg_WY-GZSqab2TALM5Dysbx7jXlvkBofCCzoNKmxN1'); width: 30px; height: 30px; background-size: cover;"></a>
-            <a href="https://x.com/FifaOnSol" target="_blank" class="social-link"><i class="fab fa-twitter"></i></a>
-            <a href="https://t.me/+56BmcHTpCbI5NjQ0" target="_blank" class="social-link"><i class="fab fa-telegram"></i></a>
+            <a href="https://dexscreener.com/solana/8k7g45gug3pytreuruc7tghg3kmywx8vc8hbk5hy73w" target="_blank" class="social-link dex-button"><i></i></a>
+            <a href="https://x.com/FifaOnSol" target="_blank" class="social-link twitter-button"><i class="fab fa-twitter"></i></a>
+            <a href="https://t.me/+56BmcHTpCbI5NjQ0" target="_blank" class="social-link telegram-button"><i class="fab fa-telegram"></i></a>
         </div>
     </div>
 
@@ -290,7 +290,7 @@
             {
                 name: 'Pelé',
                 ca: 'EDdoFGdpby82tS2JJ6X2koZhFkPK94hPv6RjmFvP6P3m',
-                image: 'https://lematindalgerie.com/wp-content/uploads/2022/12/pele.jpg'
+                image: 'https://static.blog4ever.com/2014/12/790899/artfichier_790899_9341704_202205061748720.jpg'
             },
             {
                 name: 'Zinedine Zidane',
@@ -303,9 +303,9 @@
                 image: 'https://static01.nyt.com/images/2020/11/25/sports/soccer/25maradona-photos-slide-FH7H/25maradona-photos-slide-FH7H-mediumSquareAt3X.jpg'
             },
             {
-                name: 'Messi',
+                name: 'Lionel Messi',
                 ca: 'HiRx4TWNmuPK6VKxGKPSw8T7dZ9NuCrakpNpRoiCEyrA',
-                image: 'https://caracoltv.brightspotcdn.com/dims4/default/c94ccd7/2147483647/strip/true/crop/1400x992+0+0/resize/1000x709!/quality/90/?url=http%3A%2F%2Fcaracol-brightspot.s3.us-west-2.amazonaws.com%2F27%2F58%2F8ba1c9b14f2f80971a028dd13cfd%2Fgettyimages-1453215385.jpg'
+                image: 'https://upload.wikimedia.org/wikipedia/commons/b/b4/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg'
             }
         ];
 
@@ -332,8 +332,8 @@
             try {
                 const response = await fetch(url);
                 const data = await response.json();
+                console.log(data); // Debug output
                 const tokenData = data.pairs.find(pair => pair.baseToken.address.toLowerCase() === ca.toLowerCase());
-                console.log(tokenData);  // Debug output
                 return {
                     name: tokenData ? tokenData.baseToken.name.split(' ').slice(0, 2).join(' ').toUpperCase() : 'N/A',
                     symbol: tokenData ? '$' + tokenData.baseToken.symbol.toUpperCase() : 'N/A',
@@ -367,15 +367,19 @@
 
         async function displayPlayers() {
             const statsDiv = document.getElementById('stats');
-            const playerData = await Promise.all(players.map(player => fetchTokenData(player.ca).then(data => ({ ...player, ...data }))));
-            
-            playerData.sort((a, b) => {
-                if (a.name === 'Pelé') return -1; // Pelé always first
-                if (b.name === 'Pelé') return 1; 
-                return b.priceChange24h - a.priceChange24h; // Sort by price change 24h
+            const playerData = await Promise.all(players.map(player => fetchTokenData(player.ca)));
+
+            const sortedPlayers = playerData.map((data, index) => ({
+                ...players[index],
+                ...data
+            })).sort((a, b) => {
+                if (a.name === 'Pelé') return -1;
+                if (b.name === 'Pelé') return 1;
+                return parseFloat(b.priceChange24h) - parseFloat(a.priceChange24h);
             });
 
-            for (const player of playerData) {
+            sortedPlayers.forEach(player => {
+                console.log(player); // Debug output
                 const playerCard = document.createElement('div');
                 playerCard.className = 'card';
                 playerCard.innerHTML = `
@@ -415,31 +419,35 @@
                             ${player.websites.map(website => website.url ? `<a href="${website.url}" target="_blank" class="social-link"><i class="fas fa-globe social-icon"></i></a>` : '').join('')}
                         </div>
                         <div class="buy-token">
-                            <button onclick="buyToken('${player.ca}')">Buy on Jupiter</button>
-                            <button onclick="buyTokenRaydium('${player.ca}')">Buy on Raydium</button>
+                            <button style="background-color:black" onclick="buyToken('${player.ca}', 'jupiter')">Buy on Jupiter</button>
+                            <button style="background-color:black" onclick="buyToken('${player.ca}', 'raydium')">Buy on Raydium</button>
                         </div>
                         <div class="chart-button">
-                            <button onclick="flipCard(this)">Chart</button>
+                            <button style="background-color:white;color:black" onclick="flipCard(this)">Chart</button>
                         </div>
                     </div>
                     <div class="back">
                         <div id="dexscreener-embed">
                             <iframe src="https://birdeye.so/tv-widget/${player.ca}?chain=solana&chartType=candle&chartInterval=3&chartLeftToolbar=hide" frameborder="0" allowfullscreen></iframe>
                         </div>
+                        <div class="buy-token">
+                            <button style="background-color:black" onclick="buyToken('${player.ca}', 'jupiter')">Buy on Jupiter</button>
+                            <button style="background-color:black" onclick="buyToken('${player.ca}', 'raydium')">Buy on Raydium</button>
+                        </div>
                         <button class="back-button" onclick="flipCard(this)">Back</button>
                     </div>
                 `;
                 statsDiv.appendChild(playerCard);
+            });
+        }
+
+        async function buyToken(ca, platform) {
+            let url;
+            if (platform === 'jupiter') {
+                url = `https://jup.ag/swap?from=SOL&to=${ca}`;
+            } else if (platform === 'raydium') {
+                url = `https://raydium.io/swap/?inputMint=sol&outputMint=${ca}`;
             }
-        }
-
-        async function buyToken(ca) {
-            const url = `https://jup.ag/swap?from=SOL&to=${ca}`;
-            window.open(url, '_blank');
-        }
-
-        async function buyTokenRaydium(ca) {
-            const url = `https://raydium.io/swap/?inputMint=sol&outputMint=${ca}`;
             window.open(url, '_blank');
         }
 
